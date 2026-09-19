@@ -1,0 +1,1186 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>تعديل الحلاق - GROOM ROOM</title>
+
+    <link rel="stylesheet"
+          href="/css/admin.css">
+
+    <style>
+
+        .edit-barber-page {
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 0 15px 40px;
+        }
+
+        .edit-barber-header {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .edit-barber-header h1 {
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+
+        .edit-barber-header h3 {
+            margin-bottom: 5px;
+        }
+
+        .edit-card {
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 4px 18px rgba(0,0,0,.08);
+            margin-bottom: 24px;
+            overflow: hidden;
+        }
+
+        .edit-card-body {
+            padding: 28px;
+        }
+
+        .edit-card h4 {
+            font-weight: 700;
+            margin-bottom: 24px;
+        }
+
+        .form-label {
+            font-weight: 700;
+        }
+
+        .form-control {
+            min-height: 46px;
+        }
+
+        .working-days {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+        }
+
+        .day-box {
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 12px;
+            background: #fafafa;
+            transition: .2s;
+        }
+
+        .day-box:hover {
+            background: #f3f3f3;
+        }
+
+        .day-box .form-check {
+            margin: 0;
+        }
+
+        .salary-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+
+        .salary-box {
+            border: 1px solid #ddd;
+            border-radius: 12px;
+            padding: 20px 15px;
+            text-align: center;
+            height: 100%;
+            background: #fff;
+        }
+
+        .salary-box .label {
+            color: #777;
+            margin-bottom: 8px;
+        }
+
+        .salary-box .value {
+            font-size: 24px;
+            font-weight: 800;
+        }
+
+        .salary-box.net {
+            grid-column: 1 / -1;
+        }
+
+        .salary-box.net .value {
+            font-size: 30px;
+        }
+
+        .positive {
+            color: #198754;
+        }
+
+        .negative {
+            color: #dc3545;
+        }
+
+        .action-form {
+            margin-top: 10px;
+        }
+
+        .action-form .row {
+            align-items: end;
+        }
+
+        .history-table th {
+            background: #f7f7f7;
+            white-space: nowrap;
+        }
+
+        .empty-history {
+            text-align: center;
+            color: #777;
+            padding: 30px 10px;
+        }
+
+        .alert-error {
+            background: #f8d7da;
+            color: #842029;
+            border: 1px solid #f5c2c7;
+            border-radius: 10px;
+            padding: 12px 15px;
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 768px) {
+
+            .edit-barber-page {
+                margin-top: 20px;
+            }
+
+            .edit-card-body {
+                padding: 20px 15px;
+            }
+
+            .working-days {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .salary-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .salary-box.net {
+                grid-column: auto;
+            }
+
+            .edit-buttons {
+                flex-direction: column;
+            }
+
+            .edit-buttons button,
+            .edit-buttons a {
+                width: 100%;
+            }
+
+            .table-responsive {
+                overflow-x: auto;
+            }
+
+        }
+
+        @media print {
+
+            .gr-navbar,
+            .gr-footer,
+            .no-print {
+                display: none !important;
+            }
+
+            .edit-barber-page {
+                margin: 0;
+                max-width: none;
+            }
+
+            .edit-card {
+                box-shadow: none;
+                border: 1px solid #ddd;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<%- include('../partials/navbar', { user }) %>
+
+
+<div class="edit-barber-page">
+
+    <div class="edit-barber-header">
+
+        <h1>GROOM ROOM</h1>
+
+        <h3>تعديل الحلاق</h3>
+
+        <p class="text-muted">
+            <%= barber.Name %>
+        </p>
+
+    </div>
+
+
+    <% if (error) { %>
+
+        <div class="alert-error">
+            <%= error %>
+        </div>
+
+    <% } %>
+
+
+    <!-- BARBER INFORMATION -->
+
+    <div class="edit-card">
+
+        <div class="edit-card-body">
+
+            <h4>بيانات الحلاق</h4>
+
+            <form
+                action="/admin/barbers/edit/<%= barber.Id %>"
+                method="POST"
+            >
+
+                <div class="row g-3">
+
+                    <div class="col-12 col-md-6">
+
+                        <label class="form-label">
+                            اسم الحلاق
+                        </label>
+
+                        <input
+                            type="text"
+                            name="name"
+                            value="<%= barber.Name %>"
+                            class="form-control form-control-lg"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="col-12 col-md-6">
+
+                        <label class="form-label">
+                            المرتب الأساسي الشهري
+                        </label>
+
+                        <input
+                            type="number"
+                            name="basicSalary"
+                            value="<%= barber.BasicSalary %>"
+                            min="0"
+                            step="0.01"
+                            class="form-control form-control-lg"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="col-12 col-md-6">
+
+                        <label class="form-label">
+                            تاريخ بداية العمل
+                        </label>
+
+                        <input
+                            type="date"
+                            name="startDate"
+                            value="<%= barber.StartDate %>"
+                            class="form-control form-control-lg"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <div class="mt-4">
+
+                    <label class="form-label mb-3">
+                        أيام العمل
+                    </label>
+
+                    <div class="working-days">
+
+                        <div class="day-box">
+                            <label class="form-check">
+                                <input
+                                    type="checkbox"
+                                    name="saturday"
+                                    value="1"
+                                    class="form-check-input"
+                                    <%= barber.WorksSaturday ? 'checked' : '' %>
+                                >
+                                <span class="form-check-label">
+                                    السبت
+                                </span>
+                            </label>
+                        </div>
+
+
+                        <div class="day-box">
+                            <label class="form-check">
+                                <input
+                                    type="checkbox"
+                                    name="sunday"
+                                    value="1"
+                                    class="form-check-input"
+                                    <%= barber.WorksSunday ? 'checked' : '' %>
+                                >
+                                <span class="form-check-label">
+                                    الأحد
+                                </span>
+                            </label>
+                        </div>
+
+
+                        <div class="day-box">
+                            <label class="form-check">
+                                <input
+                                    type="checkbox"
+                                    name="monday"
+                                    value="1"
+                                    class="form-check-input"
+                                    <%= barber.WorksMonday ? 'checked' : '' %>
+                                >
+                                <span class="form-check-label">
+                                    الاثنين
+                                </span>
+                            </label>
+                        </div>
+
+
+                        <div class="day-box">
+                            <label class="form-check">
+                                <input
+                                    type="checkbox"
+                                    name="tuesday"
+                                    value="1"
+                                    class="form-check-input"
+                                    <%= barber.WorksTuesday ? 'checked' : '' %>
+                                >
+                                <span class="form-check-label">
+                                    الثلاثاء
+                                </span>
+                            </label>
+                        </div>
+
+
+                        <div class="day-box">
+                            <label class="form-check">
+                                <input
+                                    type="checkbox"
+                                    name="wednesday"
+                                    value="1"
+                                    class="form-check-input"
+                                    <%= barber.WorksWednesday ? 'checked' : '' %>
+                                >
+                                <span class="form-check-label">
+                                    الأربعاء
+                                </span>
+                            </label>
+                        </div>
+
+
+                        <div class="day-box">
+                            <label class="form-check">
+                                <input
+                                    type="checkbox"
+                                    name="thursday"
+                                    value="1"
+                                    class="form-check-input"
+                                    <%= barber.WorksThursday ? 'checked' : '' %>
+                                >
+                                <span class="form-check-label">
+                                    الخميس
+                                </span>
+                            </label>
+                        </div>
+
+
+                        <div class="day-box">
+                            <label class="form-check">
+                                <input
+                                    type="checkbox"
+                                    name="friday"
+                                    value="1"
+                                    class="form-check-input"
+                                    <%= barber.WorksFriday ? 'checked' : '' %>
+                                >
+                                <span class="form-check-label">
+                                    الجمعة
+                                </span>
+                            </label>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="d-flex gap-2 mt-4 edit-buttons">
+
+                    <button
+                        type="submit"
+                        class="btn btn-dark"
+                    >
+                        حفظ التعديلات
+                    </button>
+
+                    <a
+                        href="/admin/barbers"
+                        class="btn btn-secondary"
+                    >
+                        رجوع
+                    </a>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <!-- CURRENT MONTH SALARY -->
+
+    <%
+        const now = new Date();
+
+        const currentYear = now.getFullYear();
+        const currentMonth = now.getMonth() + 1;
+
+        const daysInMonth =
+            new Date(currentYear, currentMonth, 0).getDate();
+
+        const monthStart =
+            new Date(currentYear, currentMonth - 1, 1);
+
+        const monthEnd =
+            new Date(currentYear, currentMonth - 1, daysInMonth);
+
+        const startDate =
+            new Date(barber.StartDate);
+
+        let effectiveStartDate =
+            startDate > monthStart
+                ? startDate
+                : monthStart;
+
+        let workedDays = 0;
+
+        if (effectiveStartDate <= monthEnd) {
+
+            for (
+                let date = new Date(effectiveStartDate);
+                date <= monthEnd;
+                date.setDate(date.getDate() + 1)
+            ) {
+
+                const day = date.getDay();
+
+                const worksOnDay =
+                    day === 6 ? barber.WorksSaturday :
+                    day === 0 ? barber.WorksSunday :
+                    day === 1 ? barber.WorksMonday :
+                    day === 2 ? barber.WorksTuesday :
+                    day === 3 ? barber.WorksWednesday :
+                    day === 4 ? barber.WorksThursday :
+                    day === 5 ? barber.WorksFriday :
+                    false;
+
+                if (worksOnDay) {
+                    workedDays++;
+                }
+            }
+        }
+
+        const dailySalary =
+            daysInMonth > 0
+                ? Number(barber.BasicSalary || 0) / daysInMonth
+                : 0;
+
+        const earnedSalary =
+            dailySalary * workedDays;
+
+        const monthBonuses =
+            barber.Bonuses.filter(item => {
+
+                const date = new Date(item.Date);
+
+                return date.getFullYear() === currentYear &&
+                       date.getMonth() + 1 === currentMonth;
+
+            });
+
+        const monthPenalties =
+            barber.Penalties.filter(item => {
+
+                const date = new Date(item.Date);
+
+                return date.getFullYear() === currentYear &&
+                       date.getMonth() + 1 === currentMonth;
+
+            });
+
+        const monthAdvances =
+            barber.Advances.filter(item => {
+
+                const date = new Date(item.Date);
+
+                return date.getFullYear() === currentYear &&
+                       date.getMonth() + 1 === currentMonth;
+
+            });
+
+        const bonusTotal =
+            monthBonuses.reduce(
+                (sum, item) => sum + Number(item.Amount || 0),
+                0
+            );
+
+        const penaltyTotal =
+            monthPenalties.reduce(
+                (sum, item) => sum + Number(item.Amount || 0),
+                0
+            );
+
+        const advanceTotal =
+            monthAdvances.reduce(
+                (sum, item) => sum + Number(item.Amount || 0),
+                0
+            );
+
+        const netSalary =
+            earnedSalary +
+            bonusTotal -
+            penaltyTotal -
+            advanceTotal;
+    %>
+
+
+    <div class="edit-card">
+
+        <div class="edit-card-body">
+
+            <h4>
+                مستحقات الشهر الحالي
+            </h4>
+
+            <div class="salary-grid">
+
+                <div class="salary-box">
+
+                    <div class="label">
+                        المرتب الشهري
+                    </div>
+
+                    <div class="value">
+                        <%= Number(barber.BasicSalary || 0).toFixed(2) %>
+                        جنيه
+                    </div>
+
+                </div>
+
+
+                <div class="salary-box">
+
+                    <div class="label">
+                        أيام العمل المستحقة
+                    </div>
+
+                    <div class="value">
+                        <%= workedDays %>
+                    </div>
+
+                    <div class="small text-muted">
+                        أجر اليوم:
+                        <%= dailySalary.toFixed(2) %>
+                        جنيه
+                    </div>
+
+                </div>
+
+
+                <div class="salary-box">
+
+                    <div class="label">
+                        المرتب المستحق
+                    </div>
+
+                    <div class="value">
+                        <%= earnedSalary.toFixed(2) %>
+                        جنيه
+                    </div>
+
+                </div>
+
+
+                <div class="salary-box">
+
+                    <div class="label">
+                        إجمالي الـ Bonuses
+                    </div>
+
+                    <div class="value positive">
+                        +<%= bonusTotal.toFixed(2) %>
+                        جنيه
+                    </div>
+
+                </div>
+
+
+                <div class="salary-box">
+
+                    <div class="label">
+                        إجمالي الجزاءات
+                    </div>
+
+                    <div class="value negative">
+                        -<%= penaltyTotal.toFixed(2) %>
+                        جنيه
+                    </div>
+
+                </div>
+
+
+                <div class="salary-box">
+
+                    <div class="label">
+                        إجمالي السُلف
+                    </div>
+
+                    <div class="value negative">
+                        -<%= advanceTotal.toFixed(2) %>
+                        جنيه
+                    </div>
+
+                </div>
+
+
+                <div class="salary-box net">
+
+                    <div class="label">
+                        صافي المستحق
+                    </div>
+
+                    <div class="value">
+                        <%= netSalary.toFixed(2) %>
+                        جنيه
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="text-muted mt-3">
+                الشهر الحالي:
+                <%= String(currentMonth).padStart(2, '0') %>/<%= currentYear %>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ADD BONUS -->
+
+    <div class="edit-card no-print">
+
+        <div class="edit-card-body">
+
+            <h4>
+                إضافة Bonus
+            </h4>
+
+            <form
+                action="/admin/barbers/<%= barber.Id %>/bonus"
+                method="POST"
+                class="action-form"
+            >
+
+                <div class="row g-3">
+
+                    <div class="col-12 col-md-3">
+
+                        <label class="form-label">
+                            المبلغ
+                        </label>
+
+                        <input
+                            type="number"
+                            name="amount"
+                            min="0.01"
+                            step="0.01"
+                            required
+                            class="form-control"
+                            placeholder="مثال: 500"
+                        >
+
+                    </div>
+
+
+                    <div class="col-12 col-md-5">
+
+                        <label class="form-label">
+                            السبب
+                        </label>
+
+                        <input
+                            type="text"
+                            name="reason"
+                            required
+                            class="form-control"
+                            placeholder="مثال: تحقيق Target"
+                        >
+
+                    </div>
+
+
+                    <div class="col-12 col-md-3">
+
+                        <label class="form-label">
+                            التاريخ
+                        </label>
+
+                        <input
+                            type="date"
+                            name="date"
+                            value="<%= new Date().toISOString().substring(0, 10) %>"
+                            required
+                            class="form-control"
+                        >
+
+                    </div>
+
+
+                    <div class="col-12 col-md-1">
+
+                        <button
+                            type="submit"
+                            class="btn btn-success w-100"
+                        >
+                            +
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <!-- BONUS HISTORY -->
+
+    <div class="edit-card">
+
+        <div class="edit-card-body">
+
+            <h4>
+                سجل الـ Bonuses
+            </h4>
+
+            <% if (barber.Bonuses.length > 0) { %>
+
+                <div class="table-responsive">
+
+                    <table class="table table-hover align-middle history-table">
+
+                        <thead>
+
+                            <tr>
+                                <th>التاريخ</th>
+                                <th>السبب</th>
+                                <th class="text-end">المبلغ</th>
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                            <% barber.Bonuses.forEach(bonus => { %>
+
+                                <tr>
+
+                                    <td>
+                                        <%= new Date(bonus.Date).toLocaleDateString('en-GB') %>
+                                    </td>
+
+                                    <td>
+                                        <%= bonus.Reason %>
+                                    </td>
+
+                                    <td class="text-end positive fw-bold">
+                                        +<%= Number(bonus.Amount).toFixed(2) %>
+                                        جنيه
+                                    </td>
+
+                                </tr>
+
+                            <% }) %>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            <% } else { %>
+
+                <div class="empty-history">
+                    لا توجد Bonuses مسجلة.
+                </div>
+
+            <% } %>
+
+        </div>
+
+    </div>
+
+
+    <!-- ADD PENALTY -->
+
+    <div class="edit-card no-print">
+
+        <div class="edit-card-body">
+
+            <h4>
+                إضافة جزاء
+            </h4>
+
+            <form
+                action="/admin/barbers/<%= barber.Id %>/penalty"
+                method="POST"
+                class="action-form"
+            >
+
+                <div class="row g-3">
+
+                    <div class="col-12 col-md-3">
+
+                        <label class="form-label">
+                            المبلغ
+                        </label>
+
+                        <input
+                            type="number"
+                            name="amount"
+                            min="0.01"
+                            step="0.01"
+                            required
+                            class="form-control"
+                            placeholder="مثال: 100"
+                        >
+
+                    </div>
+
+
+                    <div class="col-12 col-md-5">
+
+                        <label class="form-label">
+                            السبب
+                        </label>
+
+                        <input
+                            type="text"
+                            name="reason"
+                            required
+                            class="form-control"
+                            placeholder="مثال: تأخير"
+                        >
+
+                    </div>
+
+
+                    <div class="col-12 col-md-3">
+
+                        <label class="form-label">
+                            التاريخ
+                        </label>
+
+                        <input
+                            type="date"
+                            name="date"
+                            value="<%= new Date().toISOString().substring(0, 10) %>"
+                            required
+                            class="form-control"
+                        >
+
+                    </div>
+
+
+                    <div class="col-12 col-md-1">
+
+                        <button
+                            type="submit"
+                            class="btn btn-danger w-100"
+                        >
+                            +
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <!-- PENALTIES HISTORY -->
+
+    <div class="edit-card">
+
+        <div class="edit-card-body">
+
+            <h4>
+                سجل الجزاءات
+            </h4>
+
+            <% if (barber.Penalties.length > 0) { %>
+
+                <div class="table-responsive">
+
+                    <table class="table table-hover align-middle history-table">
+
+                        <thead>
+
+                            <tr>
+                                <th>التاريخ</th>
+                                <th>السبب</th>
+                                <th class="text-end">المبلغ</th>
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                            <% barber.Penalties.forEach(penalty => { %>
+
+                                <tr>
+
+                                    <td>
+                                        <%= new Date(penalty.Date).toLocaleDateString('en-GB') %>
+                                    </td>
+
+                                    <td>
+                                        <%= penalty.Reason %>
+                                    </td>
+
+                                    <td class="text-end negative fw-bold">
+                                        -<%= Number(penalty.Amount).toFixed(2) %>
+                                        جنيه
+                                    </td>
+
+                                </tr>
+
+                            <% }) %>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            <% } else { %>
+
+                <div class="empty-history">
+                    لا توجد جزاءات مسجلة.
+                </div>
+
+            <% } %>
+
+        </div>
+
+    </div>
+
+
+    <!-- ADD ADVANCE -->
+
+    <div class="edit-card no-print">
+
+        <div class="edit-card-body">
+
+            <h4>
+                إضافة سُلفة
+            </h4>
+
+            <form
+                action="/admin/barbers/<%= barber.Id %>/advance"
+                method="POST"
+                class="action-form"
+            >
+
+                <div class="row g-3">
+
+                    <div class="col-12 col-md-3">
+
+                        <label class="form-label">
+                            المبلغ
+                        </label>
+
+                        <input
+                            type="number"
+                            name="amount"
+                            min="0.01"
+                            step="0.01"
+                            required
+                            class="form-control"
+                            placeholder="مثال: 500"
+                        >
+
+                    </div>
+
+
+                    <div class="col-12 col-md-5">
+
+                        <label class="form-label">
+                            السبب
+                        </label>
+
+                        <input
+                            type="text"
+                            name="reason"
+                            required
+                            class="form-control"
+                            placeholder="مثال: سلفة"
+                        >
+
+                    </div>
+
+
+                    <div class="col-12 col-md-3">
+
+                        <label class="form-label">
+                            التاريخ
+                        </label>
+
+                        <input
+                            type="date"
+                            name="date"
+                            value="<%= new Date().toISOString().substring(0, 10) %>"
+                            required
+                            class="form-control"
+                        >
+
+                    </div>
+
+
+                    <div class="col-12 col-md-1">
+
+                        <button
+                            type="submit"
+                            class="btn btn-warning w-100"
+                        >
+                            +
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <!-- ADVANCES HISTORY -->
+
+    <div class="edit-card">
+
+        <div class="edit-card-body">
+
+            <h4>
+                سجل السُلف
+            </h4>
+
+            <% if (barber.Advances.length > 0) { %>
+
+                <div class="table-responsive">
+
+                    <table class="table table-hover align-middle history-table">
+
+                        <thead>
+
+                            <tr>
+                                <th>التاريخ</th>
+                                <th>السبب</th>
+                                <th class="text-end">المبلغ</th>
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                            <% barber.Advances.forEach(advance => { %>
+
+                                <tr>
+
+                                    <td>
+                                        <%= new Date(advance.Date).toLocaleDateString('en-GB') %>
+                                    </td>
+
+                                    <td>
+                                        <%= advance.Reason %>
+                                    </td>
+
+                                    <td class="text-end negative fw-bold">
+                                        -<%= Number(advance.Amount).toFixed(2) %>
+                                        جنيه
+                                    </td>
+
+                                </tr>
+
+                            <% }) %>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            <% } else { %>
+
+                <div class="empty-history">
+                    لا توجد سُلف مسجلة.
+                </div>
+
+            <% } %>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<%- include('../partials/footer') %>
+
+</body>
+</html>

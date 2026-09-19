@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Groom Room - الفاتورة</title>
+
+    <link
+        rel="stylesheet"
+        href="/css/admin.css"
+    >
+
+</head>
+
+<body>
+
+<div class="invoice-page">
+
+    <div class="invoice-wrapper">
+
+        <!-- Invoice -->
+
+        <div
+            class="invoice-card"
+            id="invoice"
+        >
+
+            <div class="invoice-body">
+
+                <!-- Logo -->
+
+                <div class="invoice-logo-container">
+
+                    <img
+                        src="/images/groom-room-logo.jpeg"
+                        alt="GROOM ROOM"
+                        class="invoice-logo"
+                    >
+
+                </div>
+
+
+                <!-- Header -->
+
+                <div class="invoice-header">
+
+                    <p>
+                        فاتورة حلاقة
+                    </p>
+
+                    <small>
+                        <%= new Date(invoice.CreatedAt).toLocaleString('en-GB') %>
+                    </small>
+
+                </div>
+
+
+                <hr>
+
+
+                <!-- Invoice Number -->
+
+                <div class="invoice-row">
+
+                    <span>
+                        رقم الفاتورة
+                    </span>
+
+                    <strong>
+                        <%= invoice.InvoiceNumber %>
+                    </strong>
+
+                </div>
+
+
+                <!-- Barber -->
+
+                <div class="invoice-row">
+
+                    <span>
+                        الحلاق
+                    </span>
+
+                    <strong>
+                        <%= invoice.BarberName %>
+                    </strong>
+
+                </div>
+
+
+                <hr>
+
+
+                <!-- Services -->
+
+                <h5>
+                    الخدمات
+                </h5>
+
+                <% items.forEach(item => { %>
+
+                    <div class="invoice-row service-row">
+
+                        <span class="service-name">
+                            <%= item.ServiceName %>
+                        </span>
+
+                        <strong class="service-price">
+                            <%= Number(item.Price).toLocaleString('en-US', {
+                                minimumFractionDigits: 2,
+                                maximumFractionDigits: 2
+                            }) %>
+                            جنيه
+                        </strong>
+
+                    </div>
+
+                <% }) %>
+
+
+                <hr>
+
+
+                <!-- Total -->
+
+                <div class="invoice-total">
+
+                    <span>
+                        الإجمالي
+                    </span>
+
+                    <span>
+                        <%= Number(invoice.TotalAmount).toLocaleString('en-US', {
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 2
+                        }) %>
+                        جنيه
+                    </span>
+
+                </div>
+
+
+                <!-- Payment -->
+
+                <div class="invoice-row payment-row">
+
+                    <span>
+                        طريقة الدفع
+                    </span>
+
+                    <strong>
+
+                        <% if (invoice.PaymentMethod === 'Cash') { %>
+
+                            كاش
+
+                        <% } else if (invoice.PaymentMethod === 'Card') { %>
+
+                            فيزا
+
+                        <% } else if (invoice.PaymentMethod === 'Wallet') { %>
+
+                            Wallet
+
+                        <% } else { %>
+
+                            <%= invoice.PaymentMethod %>
+
+                        <% } %>
+
+                    </strong>
+
+                </div>
+
+
+                <hr>
+
+
+                <!-- Footer -->
+
+                <div class="invoice-footer">
+
+                    <p>
+                        شكرًا لزيارتكم ❤️
+                    </p>
+
+                    <small>
+                        GROOM ROOM
+                    </small>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Actions -->
+
+        <div class="invoice-actions no-print">
+
+            <button
+                type="button"
+                class="invoice-print-button"
+                onclick="window.print()"
+            >
+                🖨️ طباعة الفاتورة
+            </button>
+
+            <a
+                href="/barber/new-haircut"
+                class="invoice-new-button"
+            >
+                حلاقة جديدة
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<style>
+
+    .invoice-page {
+        width: 100%;
+        margin: 30px auto 50px;
+        padding: 0 15px;
+    }
+
+
+    .invoice-wrapper {
+        width: 100%;
+        max-width: 520px;
+        margin: 0 auto;
+    }
+
+
+    .invoice-card {
+        background: #fff;
+        border: 1px solid #e5e5e5;
+        border-radius: 10px;
+        box-shadow: 0 3px 12px rgba(0, 0, 0, 0.05);
+        overflow: hidden;
+    }
+
+
+    .invoice-body {
+        padding: 30px;
+    }
+
+
+    .invoice-logo-container {
+        text-align: center;
+        margin-bottom: 18px;
+    }
+
+
+    .invoice-logo {
+        width: auto;
+        height: 70px;
+        max-width: 220px;
+        object-fit: contain;
+    }
+
+
+    .invoice-header {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+
+    .invoice-header p {
+        margin: 0 0 5px;
+        font-weight: 700;
+        font-size: 17px;
+    }
+
+
+    .invoice-header small {
+        color: #777;
+        font-size: 13px;
+    }
+
+
+    .invoice-body hr {
+        border: 0;
+        border-top: 1px solid #ddd;
+        margin: 18px 0;
+    }
+
+
+    .invoice-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 15px;
+        margin-bottom: 14px;
+    }
+
+
+    .invoice-row span:first-child {
+        color: #555;
+    }
+
+
+    .invoice-row strong {
+        text-align: left;
+    }
+
+
+    .invoice-body h5 {
+        margin: 0 0 15px;
+        font-size: 18px;
+    }
+
+
+    .service-row {
+        margin-bottom: 12px;
+    }
+
+
+    .service-name {
+        word-break: break-word;
+    }
+
+
+    .service-price {
+        white-space: nowrap;
+    }
+
+
+    .invoice-total {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 10px;
+        font-size: 24px;
+        font-weight: 800;
+    }
+
+
+    .payment-row {
+        margin-top: 15px;
+        margin-bottom: 0;
+    }
+
+
+    .invoice-footer {
+        text-align: center;
+        margin-top: 22px;
+    }
+
+
+    .invoice-footer p {
+        margin: 0 0 5px;
+    }
+
+
+    .invoice-footer small {
+        color: #777;
+    }
+
+
+    .invoice-actions {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 10px;
+        margin-top: 15px;
+    }
+
+
+    .invoice-print-button,
+    .invoice-new-button {
+        width: 100%;
+        min-height: 50px;
+        padding: 12px 18px;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 15px;
+        font-weight: 700;
+        cursor: pointer;
+        text-decoration: none;
+    }
+
+
+    .invoice-print-button {
+        border: 1px solid #222;
+        background: #222;
+        color: #fff;
+    }
+
+
+    .invoice-new-button {
+        border: 1px solid #333;
+        background: #fff;
+        color: #222;
+    }
+
+
+    .invoice-print-button:hover {
+        opacity: 0.9;
+    }
+
+
+    .invoice-new-button:hover {
+        background: #f5f5f5;
+    }
+
+
+    @media (max-width: 576px) {
+
+        .invoice-page {
+            margin-top: 20px;
+            padding-left: 12px;
+            padding-right: 12px;
+        }
+
+
+        .invoice-body {
+            padding: 20px;
+        }
+
+
+        .invoice-logo {
+            height: 58px;
+            max-width: 180px;
+        }
+
+
+        .invoice-row {
+            font-size: 14px;
+        }
+
+
+        .invoice-total {
+            font-size: 22px;
+        }
+
+    }
+
+
+    @media print {
+
+        @page {
+            size: 80mm auto;
+            margin: 0;
+        }
+
+
+        html,
+        body {
+            width: 80mm;
+            margin: 0;
+            padding: 0;
+            background: #fff !important;
+        }
+
+
+        body * {
+            visibility: hidden;
+        }
+
+
+        #invoice,
+        #invoice * {
+            visibility: visible;
+        }
+
+
+        #invoice {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 72mm;
+            max-width: 72mm;
+            margin: 0;
+            padding: 4mm;
+            background: #fff;
+            box-shadow: none !important;
+            border: none !important;
+            border-radius: 0 !important;
+            font-size: 11px;
+            direction: rtl;
+        }
+
+
+        #invoice .invoice-body {
+            padding: 0 !important;
+        }
+
+
+        #invoice .invoice-logo {
+            height: 45px;
+            max-width: 140px;
+        }
+
+
+        #invoice .invoice-header {
+            margin-bottom: 10px;
+        }
+
+
+        #invoice .invoice-header p {
+            font-size: 12px;
+        }
+
+
+        #invoice .invoice-header small {
+            font-size: 9px;
+        }
+
+
+        #invoice hr {
+            border: 0;
+            border-top: 1px dashed #000;
+            opacity: 1;
+            margin: 10px 0;
+        }
+
+
+        #invoice .invoice-row {
+            margin-bottom: 7px;
+        }
+
+
+        #invoice h5 {
+            font-size: 13px;
+            margin-bottom: 8px;
+        }
+
+
+        #invoice .service-row {
+            margin-bottom: 7px;
+        }
+
+
+        #invoice .invoice-total {
+            font-size: 16px;
+        }
+
+
+        #invoice .payment-row {
+            margin-top: 7px;
+        }
+
+
+        #invoice .invoice-footer {
+            margin-top: 10px;
+        }
+
+
+        #invoice .invoice-footer p {
+            font-size: 10px;
+        }
+
+
+        #invoice .invoice-footer small {
+            font-size: 8px;
+        }
+
+    }
+
+</style>
+
+</body>
+
+</html>

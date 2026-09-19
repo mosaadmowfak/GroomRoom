@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Groom Room - لوحة التحكم</title>
+
+    <link
+        rel="stylesheet"
+        href="/css/admin.css"
+    >
+
+    <style>
+
+        .dashboard-actions-extra {
+            margin-top: 15px;
+        }
+
+        .quick-action-card.expense {
+            border-top: 4px solid #dc3545;
+        }
+
+        .quick-action-card.advance {
+            border-top: 4px solid #dc3545;
+        }
+
+        .quick-action-card .quick-action-icon {
+            font-size: 28px;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .stat-card.expense-stat strong,
+        .stat-card.advance-stat strong {
+            color: #dc3545;
+        }
+
+        .stat-card.bonus-stat strong {
+            color: #198754;
+        }
+
+        .stat-card.net-stat strong {
+            font-weight: 900;
+        }
+
+        @media (max-width: 576px) {
+
+            .quick-actions-grid {
+                grid-template-columns: 1fr !important;
+            }
+
+        }
+
+
+        .dashboard-section-heading {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .period-card {
+            position: relative;
+        }
+
+        .period-print-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 12px;
+            padding: 7px 14px;
+            border: 1px solid #222;
+            border-radius: 7px;
+            background: #fff;
+            color: #111;
+            text-decoration: none;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .period-print-btn:hover {
+            background: #111;
+            color: #fff;
+        }
+
+        .report-print-btn {
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        @media (max-width: 576px) {
+
+            .dashboard-section-heading {
+                align-items: stretch;
+            }
+
+            .report-print-btn {
+                width: 100%;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <%- include('../partials/navbar', { user: user }) %>
+
+
+    <div class="admin-dashboard">
+
+
+        <!-- HEADER -->
+
+        <header class="dashboard-header">
+
+            <div>
+
+                <h1>
+                    GROOM ROOM
+                </h1>
+
+                <h3>
+                    لوحة التحكم
+                </h3>
+
+                <p>
+                    متابعة المبيعات وأداء الحلاقين
+                </p>
+
+            </div>
+
+        </header>
+
+
+        <!-- BUSINESS DAY -->
+
+        <section class="dashboard-card business-day-card">
+
+            <div class="card-header">
+
+                <div>
+
+                    <h2>
+                        يوم العمل
+                    </h2>
+
+
+                    <% if (businessDay) { %>
+
+                        <p class="status-open">
+                            اليوم مفتوح
+                        </p>
+
+                    <% } else { %>
+
+                        <p class="status-closed">
+                            لا يوجد يوم عمل مفتوح
+                        </p>
+
+                    <% } %>
+
+                </div>
+
+
+                <% if (businessDay) { %>
+
+                    <form
+                        method="POST"
+                        action="/admin/business-day/close"
+                    >
+
+                        <button
+                            type="submit"
+                            class="danger-btn"
+                        >
+                            قفل يوم العمل
+                        </button>
+
+                    </form>
+
+                <% } else { %>
+
+                    <a
+                        href="/admin/business-day"
+                        class="primary-btn"
+                    >
+                        فتح يوم العمل
+                    </a>
+
+                <% } %>
+
+            </div>
+
+
+            <% if (businessDay) { %>
+
+                <div class="business-day-info">
+
+                    <div>
+
+                        <span>
+                            تاريخ العمل
+                        </span>
+
+                        <strong>
+                            <%= new Date(
+                                businessDay.BusinessDate
+                            ).toLocaleDateString('en-GB') %>
+                        </strong>
+
+                    </div>
+
+
+                    <div>
+
+                        <span>
+                            وقت الفتح
+                        </span>
+
+                        <strong>
+                            <%= new Date(
+                                businessDay.OpenedAt
+                            ).toLocaleString('en-GB') %>
+                        </strong>
+
+                    </div>
+
+                </div>
+
+            <% } %>
+
+        </section>
+
+
+        <!-- TODAY -->
+
+        <section>
+
+            <div class="section-title">
+
+                <h2>
+                    إحصائيات اليوم
+                </h2>
+
+            </div>
+
+
+            <div class="stats-grid">
+
+
+                <!-- SALES -->
+
+                <div class="stat-card">
+
+                    <span class="stat-label">
+                        المبيعات
+                    </span>
+
+                    <strong class="stat-value">
+
+                        <%= Number(
+                            todaySales || 0
+                        ).toLocaleString('en-US', {
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 2
+                        }) %>
+
+                        جنيه
+
+                    </strong>
+
+                </div>
+
+
+                <!-- INVOICES -->
+
+                <div class="stat-card">
+
+                    <span class="stat-label">
+                        عدد الفواتير
+                    </span>
+
+                    <strong class="stat-value">
+                        <%= todayInvoices || 0 %>
+                    </strong>
+
+                </div>
+
+
+                <!-- BONUSES -->
+
+                <div class="stat-card bonus-stat">
+
+                    <span class="stat-label">
+                        المكافآت
+                    </span>
+
+                    <strong class="stat-value">
+
+                        <%= Number(
+                            todayBonuses || 0
+                        ).toLocaleString('en-US', {
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 2
+                        }) %>
+
+                        جنيه
+
+                    </strong>
+
+                </div>
+
+
+                <!-- EXPENSES -->
+
+                <div class="stat-card expense-stat">
+
+                    <span class="stat-label">
+                        المصروفات
+                    </span>
+
+                    <strong class="stat-value">
+
+                        <%= Number(
+                            todayExpenses || 0
+                        ).toLocaleString('en-US', {
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 2
+                        }) %>
+
+                        جنيه
+
+                    </strong>
+
+                </div>
+
+
+                <!-- ADVANCES -->
+
+                <div class="stat-card advance-stat">
+
+                    <span class="stat-label">
+                        السلف
+                    </span>
+
+                    <strong class="stat-value">
+
+                        <%= Number(
+                            todayAdvances || 0
+                        ).toLocaleString('en-US', {
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 2
+                        }) %>
+
+                        جنيه
+
+                    </strong>
+
+                </div>
+
+
+                <!-- NET -->
+
+                <div class="stat-card highlight net-stat">
+
+                    <span class="stat-label">
+                        صافي الدخل
+                    </span>
+
+                    <strong class="stat-value">
+
+                        <%= Number(
+                            todayNetIncome || 0
+                        ).toLocaleString('en-US', {
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 2
+                        }) %>
+
+                        جنيه
+
+                    </strong>
+
+                </div>
+
+
+            </div>
+
+        </section>
+
+
+        <!-- QUICK ACTIONS -->
+
+        <section>
+
+            <div class="section-title">
+
+                <h2>
+                    إجراءات سريعة
+                </h2>
+
+            </div>
+
+
+            <div class="quick-actions-grid">
+
+
+                <!-- NEW HAIRCUT -->
+
+                <a
+                    href="/barber/new-haircut"
+                    class="quick-action-card"
+                >
+
+                    <span class="quick-action-icon">
+                        💈
+                    </span>
+
+                    <strong>
+                        حلاقة جديدة
+                    </strong>
+
+                    <span>
+                        تسجيل حلاقة وإصدار فاتورة
+                    </span>
+
+                </a>
+
+
+                <!-- BUSINESS DAY -->
+
+                <a
+                    href="/admin/business-day"
+                    class="quick-action-card"
+                >
+
+                    <span class="quick-action-icon">
+                        📅
+                    </span>
+
+                    <strong>
+                        يوم العمل
+                    </strong>
+
+                    <span>
+                        فتح أو مراجعة أيام العمل
+                    </span>
+
+                </a>
+
+
+                <!-- EXPENSE -->
+
+                <a
+                    href="/admin/expenses"
+                    class="quick-action-card expense"
+                >
+
+                    <span class="quick-action-icon">
+                        💸
+                    </span>
+
+                    <strong>
+                        إضافة مصروف
+                    </strong>
+
+                    <span>
+                        تسجيل مصروف جديد
+                    </span>
+
+                </a>
+
+
+                <!-- ADVANCE -->
+
+                <a
+                    href="/admin/advances"
+                    class="quick-action-card advance"
+                >
+
+                    <span class="quick-action-icon">
+                        💵
+                    </span>
+
+                    <strong>
+                        إضافة سلفة
+                    </strong>
+
+                    <span>
+                        تسجيل سلفة لحلاق
+                    </span>
+
+                </a>
+
+
+            </div>
+
+        </section>
+
+
+        <!-- PERIOD REPORTS -->
+
+        <section>
+
+            <div class="section-title dashboard-section-heading">
+
+                <h2>
+                    التقارير
+                </h2>
+
+            </div>
+
+
+            <div class="period-grid">
+
+
+                <!-- DAY -->
+
+                <div class="period-card">
+
+                    <span>
+                        اليوم
+                    </span>
+
+                    <strong>
+
+                        <%= Number(
+                            todaySales || 0
+                        ).toLocaleString('en-US', {
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 2
+                        }) %>
+
+                        جنيه
+
+                    </strong>
+
+                    <small>
+
+                        <%= todayInvoices || 0 %>
+                        فاتورة
+
+                    </small>
+
+                    <a
+                        href="/admin/reports?period=day&report=summary&print=1"
+                        target="_blank"
+                        class="period-print-btn"
+                    >
+                        🖨️ طباعة
+                    </a>
+
+                </div>
+
+
+                <!-- WEEK -->
+
+                <div class="period-card">
+
+                    <span>
+                        هذا الأسبوع
+                    </span>
+
+                    <strong>
+
+                        <%= Number(
+                            weekSales || 0
+                        ).toLocaleString('en-US', {
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 2
+                        }) %>
+
+                        جنيه
+
+                    </strong>
+
+                    <small>
+
+                        <%= weekInvoices || 0 %>
+                        فاتورة
+
+                    </small>
+
+                    <a
+                        href="/admin/reports?period=week&report=summary&print=1"
+                        target="_blank"
+                        class="period-print-btn"
+                    >
+                        🖨️ طباعة
+                    </a>
+
+                </div>
+
+
+                <!-- MONTH -->
+
+                <div class="period-card">
+
+                    <span>
+                        هذا الشهر
+                    </span>
+
+                    <strong>
+
+                        <%= Number(
+                            monthSales || 0
+                        ).toLocaleString('en-US', {
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 2
+                        }) %>
+
+                        جنيه
+
+                    </strong>
+
+                    <small>
+
+                        <%= monthInvoices || 0 %>
+                        فاتورة
+
+                    </small>
+
+                    <a
+                        href="/admin/reports?period=month&report=summary&print=1"
+                        target="_blank"
+                        class="period-print-btn"
+                    >
+                        🖨️ طباعة
+                    </a>
+
+                </div>
+
+
+                <!-- YEAR -->
+
+                <div class="period-card">
+
+                    <span>
+                        هذا العام
+                    </span>
+
+                    <strong>
+
+                        <%= Number(
+                            yearSales || 0
+                        ).toLocaleString('en-US', {
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 2
+                        }) %>
+
+                        جنيه
+
+                    </strong>
+
+                    <small>
+
+                        <%= yearInvoices || 0 %>
+                        فاتورة
+
+                    </small>
+
+                    <a
+                        href="/admin/reports?period=year&report=summary&print=1"
+                        target="_blank"
+                        class="period-print-btn"
+                    >
+                        🖨️ طباعة
+                    </a>
+
+                </div>
+
+
+            </div>
+
+        </section>
+
+
+        <!-- BARBER REPORT -->
+
+        
+
+
+    <%- include('../partials/footer') %>
+
+
+</body>
+
+</html>

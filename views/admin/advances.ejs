@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>السلف - GROOM ROOM</title>
+
+    <link
+        rel="stylesheet"
+        href="/css/admin.css"
+    >
+
+    <link rel="stylesheet" href="/css/professional.css">
+
+    <style>
+
+        .advances-page {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px 50px;
+        }
+
+        .advances-header {
+            text-align: center;
+            margin-bottom: 45px;
+        }
+
+        .advances-header h1 {
+            font-size: 38px;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+
+        .advances-header h2 {
+            margin-bottom: 8px;
+        }
+
+        .advances-header p {
+            color: #777;
+            margin: 0;
+        }
+
+        .advance-card {
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,.08);
+            margin-bottom: 25px;
+        }
+
+        .advance-card-body {
+            padding: 25px;
+        }
+
+        .advance-card h3 {
+            margin-top: 0;
+            margin-bottom: 22px;
+        }
+
+        .advance-form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 18px;
+        }
+
+        .advance-field {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .advance-field label {
+            font-weight: 600;
+        }
+
+        .advance-field input,
+        .advance-field select {
+            width: 100%;
+            box-sizing: border-box;
+            min-height: 44px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            padding: 10px 12px;
+            font-size: 15px;
+            background: #fff;
+        }
+
+        .advance-form-actions {
+            margin-top: 20px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .advance-btn {
+            border: none;
+            border-radius: 6px;
+            padding: 11px 24px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 600;
+        }
+
+        .advance-btn-dark {
+            background: #212529;
+            color: #fff;
+        }
+
+        .advance-btn-secondary {
+            background: #6c757d;
+            color: #fff;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .advance-summary {
+            text-align: center;
+        }
+
+        .advance-summary-label {
+            color: #777;
+            margin-bottom: 8px;
+        }
+
+        .advance-summary-value {
+            font-size: 30px;
+            font-weight: 800;
+        }
+
+        .advance-table-wrapper {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        .advance-table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 750px;
+        }
+
+        .advance-table th,
+        .advance-table td {
+            padding: 14px 12px;
+            border-bottom: 1px solid #ddd;
+            text-align: right;
+        }
+
+        .advance-table th {
+            font-weight: 700;
+            background: #f8f8f8;
+        }
+
+        .advance-amount {
+            font-weight: 700;
+        }
+
+        .advance-empty {
+            text-align: center;
+            padding: 45px 20px;
+            color: #777;
+        }
+
+        @media (max-width: 768px) {
+
+            .advances-page {
+                margin-top: 25px;
+                padding: 0 12px 35px;
+            }
+
+            .advances-header {
+                margin-bottom: 30px;
+            }
+
+            .advances-header h1 {
+                font-size: 30px;
+            }
+
+            .advances-header h2 {
+                font-size: 22px;
+            }
+
+            .advance-card-body {
+                padding: 20px;
+            }
+
+            .advance-form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .advance-form-actions {
+                flex-direction: column;
+            }
+
+            .advance-btn {
+                width: 100%;
+                min-height: 44px;
+            }
+        }
+
+        @media print {
+
+            nav,
+            footer,
+            .no-print {
+                display: none !important;
+            }
+
+            .advances-page {
+                margin: 0;
+                max-width: none;
+                padding: 10px;
+            }
+
+            .advance-card {
+                box-shadow: none;
+                border: none;
+            }
+        }
+
+    </style>
+</head>
+
+<body class="professional-ui">
+
+    <%- include('../partials/navbar', { user }) %>
+
+    <main class="advances-page">
+
+        <header class="advances-header">
+
+            <h1>
+                GROOM ROOM
+            </h1>
+
+            <h2>
+                السلف
+            </h2>
+
+            <p>
+                إدارة ومتابعة سلف الحلاقين
+            </p>
+
+        </header>
+
+
+        <!-- FILTER -->
+
+        <section class="advance-card no-print">
+
+            <div class="advance-card-body">
+
+                <h3>
+                    البحث في السلف
+                </h3>
+
+                <form
+                    method="GET"
+                    action="/admin/advances"
+                >
+
+                    <div class="advance-form-grid">
+
+                        <div class="advance-field">
+
+                            <label>
+                                من تاريخ
+                            </label>
+
+                            <input
+                                type="date"
+                                name="dateFrom"
+                                value="<%= dateFrom %>"
+                            >
+
+                        </div>
+
+
+                        <div class="advance-field">
+
+                            <label>
+                                إلى تاريخ
+                            </label>
+
+                            <input
+                                type="date"
+                                name="dateTo"
+                                value="<%= dateTo %>"
+                            >
+
+                        </div>
+
+
+                        <div class="advance-field">
+
+                            <label>
+                                الحلاق
+                            </label>
+
+                            <select name="barberId">
+
+                                <option value="">
+                                    كل الحلاقين
+                                </option>
+
+                                <% barbers.forEach(barber => { %>
+
+                                    <option
+                                        value="<%= barber.Id %>"
+                                        <%= String(barberId) === String(barber.Id) ? 'selected' : '' %>
+                                    >
+                                        <%= barber.Name %>
+                                    </option>
+
+                                <% }); %>
+
+                            </select>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="advance-form-actions">
+
+                        <button
+                            type="submit"
+                            class="advance-btn advance-btn-dark"
+                        >
+                            بحث
+                        </button>
+
+                        <a
+                            href="/admin/advances"
+                            class="advance-btn advance-btn-secondary"
+                        >
+                            إعادة ضبط
+                        </a>
+
+                        <button
+                            type="button"
+                            onclick="window.print()"
+                            class="advance-btn"
+                            style="background:#fff;border:1px solid #222;"
+                        >
+                            🖨️ طباعة
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </section>
+
+
+        <!-- ADD ADVANCE -->
+
+        <section class="advance-card no-print">
+
+            <div class="advance-card-body">
+
+                <h3>
+                    إضافة سلفة
+                </h3>
+
+                <form
+                    method="POST"
+                    action="/admin/advances/add"
+                >
+
+                    <div class="advance-form-grid">
+
+                        <div class="advance-field">
+
+                            <label>
+                                الحلاق
+                            </label>
+
+                            <select
+                                name="barberId"
+                                required
+                            >
+
+                                <option value="">
+                                    اختر الحلاق
+                                </option>
+
+                                <% barbers.forEach(barber => { %>
+
+                                    <option value="<%= barber.Id %>">
+                                        <%= barber.Name %>
+                                    </option>
+
+                                <% }); %>
+
+                            </select>
+
+                        </div>
+
+
+                        <div class="advance-field">
+
+                            <label>
+                                المبلغ
+                            </label>
+
+                            <input
+                                type="number"
+                                name="amount"
+                                min="0.01"
+                                step="0.01"
+                                placeholder="مثال: 1000"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="advance-field">
+
+                            <label>
+                                التاريخ
+                            </label>
+
+                            <input
+                                type="date"
+                                name="date"
+                                value="<%= new Date().toISOString().split('T')[0] %>"
+                                required
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                    <div
+                        class="advance-field"
+                        style="margin-top:18px;"
+                    >
+
+                        <label>
+                            السبب
+                        </label>
+
+                        <input
+                            type="text"
+                            name="reason"
+                            placeholder="مثال: سلفة شخصية"
+                        >
+
+                    </div>
+
+
+                    <div class="advance-form-actions">
+
+                        <button
+                            type="submit"
+                            class="advance-btn advance-btn-dark"
+                        >
+                            إضافة السلفة
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </section>
+
+
+        <!-- SUMMARY -->
+
+        <section class="advance-card">
+
+            <div class="advance-card-body advance-summary">
+
+                <div class="advance-summary-label">
+                    إجمالي السلف
+                </div>
+
+                <div class="advance-summary-value">
+
+                    <%= Number(totalAdvances).toLocaleString('en-US', {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2
+                    }) %>
+
+                    جنيه
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- LIST -->
+
+        <section class="advance-card">
+
+            <div class="advance-card-body">
+
+                <div
+                    style="
+                        display:flex;
+                        justify-content:space-between;
+                        align-items:center;
+                        margin-bottom:20px;
+                        gap:15px;
+                    "
+                >
+
+                    <div>
+
+                        <h3 style="margin-bottom:5px;">
+                            قائمة السلف
+                        </h3>
+
+                        <div style="color:#777;">
+                            جميع السلف المسجلة
+                        </div>
+
+                    </div>
+
+                    <strong>
+                        <%= advances.length %> سلفة
+                    </strong>
+
+                </div>
+
+
+                <% if (advances.length > 0) { %>
+
+                    <div class="advance-table-wrapper">
+
+                        <table class="advance-table">
+
+                            <thead>
+
+                                <tr>
+
+                                    <th>
+                                        التاريخ
+                                    </th>
+
+                                    <th>
+                                        الحلاق
+                                    </th>
+
+                                    <th>
+                                        السبب
+                                    </th>
+
+                                    <th>
+                                        المبلغ
+                                    </th>
+
+                                </tr>
+
+                            </thead>
+
+                            <tbody>
+
+                                <% advances.forEach(advance => { %>
+
+                                    <tr>
+
+                                        <td>
+                                            <%= new Date(advance.Date)
+                                                .toLocaleDateString('en-GB') %>
+                                        </td>
+
+                                        <td>
+                                            <%= advance.BarberName %>
+                                        </td>
+
+                                        <td>
+                                            <%= advance.Reason || '-' %>
+                                        </td>
+
+                                        <td class="advance-amount">
+
+                                            <%= Number(advance.Amount)
+                                                .toLocaleString('en-US', {
+                                                    minimumFractionDigits: 2,
+                                                    maximumFractionDigits: 2
+                                                }) %>
+
+                                            جنيه
+
+                                        </td>
+
+                                    </tr>
+
+                                <% }); %>
+
+                            </tbody>
+
+                            <tfoot>
+
+                                <tr>
+
+                                    <td colspan="3">
+                                        <strong>
+                                            الإجمالي
+                                        </strong>
+                                    </td>
+
+                                    <td class="advance-amount">
+
+                                        <strong>
+
+                                            <%= Number(totalAdvances)
+                                                .toLocaleString('en-US', {
+                                                    minimumFractionDigits: 2,
+                                                    maximumFractionDigits: 2
+                                                }) %>
+
+                                            جنيه
+
+                                        </strong>
+
+                                    </td>
+
+                                </tr>
+
+                            </tfoot>
+
+                        </table>
+
+                    </div>
+
+                <% } else { %>
+
+                    <div class="advance-empty">
+                        لا توجد سلف في الفترة المحددة.
+                    </div>
+
+                <% } %>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <%- include('../partials/footer') %>
+
+</body>
+
+</html>

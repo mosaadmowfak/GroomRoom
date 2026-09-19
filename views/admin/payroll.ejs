@@ -1,0 +1,1346 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>المرتبات - GROOM ROOM</title>
+
+    <link
+        rel="stylesheet"
+        href="/css/admin.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="/css/professional.css"
+    >
+
+    <style>
+
+        .payroll-page {
+            max-width: 1400px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .page-header h1 {
+            margin: 0;
+            font-size: 32px;
+            font-weight: 900;
+        }
+
+        .page-header p {
+            color: #777;
+            margin-top: 8px;
+        }
+
+        .filter-card {
+            background: #fff;
+            border-radius: 16px;
+            padding: 22px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 18px rgba(0,0,0,.06);
+        }
+
+        .filter-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr auto;
+            gap: 15px;
+            align-items: end;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+        }
+
+        .form-group label {
+            font-weight: 700;
+        }
+
+        .form-group select {
+            padding: 11px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            background: #fff;
+            font-size: 15px;
+        }
+
+        .filter-btn {
+            border: none;
+            border-radius: 10px;
+            padding: 12px 25px;
+            background: #111;
+            color: #fff;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .summary-card {
+            background: #fff;
+            border-radius: 15px;
+            padding: 18px;
+            text-align: center;
+            box-shadow: 0 4px 18px rgba(0,0,0,.06);
+        }
+
+        .summary-label {
+            color: #777;
+            font-size: 13px;
+            margin-bottom: 8px;
+        }
+
+        .summary-value {
+            font-size: 20px;
+            font-weight: 900;
+            color: #111;
+        }
+
+        .summary-value.positive,
+        .payroll-page .positive {
+            color: #198754 !important;
+            font-weight: 700;
+        }
+
+        .summary-value.negative,
+        .payroll-page .negative {
+            color: #dc3545 !important;
+            font-weight: 700;
+        }
+
+        .summary-value.net-salary,
+        .payroll-page .net-salary {
+            color: #111 !important;
+            font-weight: 900;
+        }
+
+        .payroll-page .summary-value.positive {
+            color: #198754 !important;
+        }
+
+        .payroll-page .summary-value.negative {
+            color: #dc3545 !important;
+        }
+
+        .payroll-table-card {
+            background: #fff;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 18px rgba(0,0,0,.06);
+            margin-bottom: 30px;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+        }
+
+        .payroll-table {
+            width: 100%;
+            min-width: 1250px;
+            border-collapse: collapse;
+        }
+
+        .payroll-table th,
+        .payroll-table td {
+            padding: 14px 10px;
+            text-align: center;
+            border-bottom: 1px solid #eee;
+            white-space: nowrap;
+        }
+
+        .payroll-table th {
+            background: #fafafa;
+            font-weight: 800;
+        }
+
+        .payroll-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .barber-name {
+            font-weight: 800;
+        }
+
+        .positive {
+            font-weight: 700;
+        }
+
+        .negative {
+            font-weight: 700;
+        }
+
+        .net-salary {
+            font-size: 16px;
+            font-weight: 900;
+        }
+
+        .actions-title {
+            text-align: center;
+            margin: 30px 0 15px;
+            font-size: 24px;
+            font-weight: 900;
+        }
+
+        .actions-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+            margin-bottom: 30px;
+        }
+
+        .action-card {
+            background: #fff;
+            border-radius: 16px;
+            padding: 22px;
+            box-shadow: 0 4px 18px rgba(0,0,0,.06);
+        }
+
+        .action-card h3 {
+            margin-top: 0;
+            margin-bottom: 18px;
+            font-size: 19px;
+        }
+
+        .action-card form {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .action-card input,
+        .action-card select,
+        .action-card textarea {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 11px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            font-size: 14px;
+            font-family: inherit;
+        }
+
+        .action-card textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .action-card button {
+            border: none;
+            background: #111;
+            color: #fff;
+            padding: 12px;
+            border-radius: 10px;
+            font-weight: 800;
+            cursor: pointer;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 50px 20px;
+            color: #777;
+        }
+
+        .money {
+            direction: ltr;
+            unicode-bidi: plaintext;
+        }
+
+        @media (max-width: 1100px) {
+
+            .summary-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .actions-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 700px) {
+
+            .payroll-page {
+                margin: 20px auto;
+                padding: 0 12px;
+            }
+
+            .filter-form {
+                grid-template-columns: 1fr;
+            }
+
+            .filter-btn {
+                width: 100%;
+            }
+
+            .summary-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .page-header h1 {
+                font-size: 26px;
+            }
+        }
+
+        @media (max-width: 450px) {
+
+            .summary-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media print {
+
+            .gr-navbar,
+            .gr-footer,
+            .filter-card,
+            .actions-title,
+            .actions-grid {
+                display: none !important;
+            }
+
+            .payroll-page {
+                max-width: none;
+                margin: 0;
+                padding: 0;
+            }
+
+            .payroll-table-card {
+                box-shadow: none;
+            }
+        }
+
+
+        /* =========================================================
+           THERMAL 80MM PAYROLL - SAME RECEIPT STYLE AS DAILY REPORT
+           ========================================================= */
+
+        .payroll-print-actions {
+            display: flex;
+            justify-content: center;
+            margin-top: 15px;
+        }
+
+        @media print {
+
+            @page {
+                size: 80mm auto;
+                margin: 0;
+            }
+
+            html,
+            body {
+                width: 80mm !important;
+                min-width: 80mm !important;
+                max-width: 80mm !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                background: #fff !important;
+            }
+
+            body {
+                font-family: Arial, "Segoe UI", Tahoma, sans-serif !important;
+                color: #111 !important;
+                font-size: 9px !important;
+            }
+
+            .gr-navbar,
+            .gr-footer,
+            .filter-card,
+            .actions-title,
+            .actions-grid,
+            .payroll-print-actions {
+                display: none !important;
+            }
+
+            .payroll-page {
+                width: 80mm !important;
+                min-width: 80mm !important;
+                max-width: 80mm !important;
+                margin: 0 !important;
+                padding: 3mm !important;
+                box-sizing: border-box !important;
+            }
+
+            .page-header {
+                text-align: center !important;
+                margin: 0 !important;
+                padding: 0 0 2.5mm !important;
+                border-bottom: 1px dashed #111 !important;
+            }
+
+            .page-header::before {
+                content: "GROOM ROOM";
+                display: block;
+                font-size: 16px;
+                line-height: 1;
+                font-weight: 900;
+                margin-bottom: 1.5mm;
+            }
+
+            .page-header h1 {
+                font-size: 12px !important;
+                line-height: 1.2 !important;
+                margin: 0 !important;
+                font-weight: 900 !important;
+            }
+
+            .page-header p {
+                font-size: 7px !important;
+                color: #111 !important;
+                line-height: 1.2 !important;
+                margin: 1mm 0 0 !important;
+            }
+
+            /* Summary exactly as a receipt-style key/value list */
+            .summary-grid {
+                display: block !important;
+                margin: 0 !important;
+                padding: 0 !important;
+            }
+
+            .summary-card {
+                display: flex !important;
+                align-items: center !important;
+                justify-content: space-between !important;
+                width: 100% !important;
+                padding: 1.25mm 0 !important;
+                margin: 0 !important;
+                border: 0 !important;
+                border-bottom: 1px dotted #999 !important;
+                border-radius: 0 !important;
+                box-shadow: none !important;
+                text-align: right !important;
+                background: #fff !important;
+            }
+
+            .summary-label {
+                font-size: 7px !important;
+                line-height: 1.15 !important;
+                margin: 0 !important;
+                font-weight: 700 !important;
+            }
+
+            .summary-value {
+                font-size: 7px !important;
+                line-height: 1.15 !important;
+                margin: 0 !important;
+                font-weight: 900 !important;
+            }
+
+            .payroll-table-card {
+                width: 100% !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                border: 0 !important;
+                border-radius: 0 !important;
+                box-shadow: none !important;
+                overflow: visible !important;
+                background: #fff !important;
+            }
+
+            .table-wrapper {
+                width: 100% !important;
+                overflow: visible !important;
+            }
+
+            .payroll-table {
+                width: 100% !important;
+                min-width: 0 !important;
+                max-width: 100% !important;
+                table-layout: fixed !important;
+                border-collapse: collapse !important;
+                margin: 2mm 0 0 !important;
+                font-size: 6.5px !important;
+            }
+
+            .payroll-table th,
+            .payroll-table td {
+                padding: 1mm 0.35mm !important;
+                font-size: 6.5px !important;
+                line-height: 1.2 !important;
+                white-space: normal !important;
+                overflow-wrap: anywhere !important;
+                word-break: break-word !important;
+                border-bottom: 1px dotted #999 !important;
+                text-align: center !important;
+            }
+
+            .payroll-table th {
+                background: #fff !important;
+                font-weight: 900 !important;
+            }
+
+            .payroll-table th:first-child,
+            .payroll-table td:first-child {
+                text-align: right !important;
+            }
+
+            .barber-name {
+                font-weight: 900 !important;
+            }
+
+            .empty-state {
+                padding: 5mm 0 !important;
+                font-size: 8px !important;
+            }
+
+            .payroll-page::after {
+                content: "GROOM ROOM";
+                display: block;
+                text-align: center;
+                margin-top: 4mm;
+                padding-top: 2mm;
+                border-top: 1px dashed #111;
+                font-size: 7px;
+                font-weight: 800;
+            }
+
+            /* Keep the report compact like the daily thermal receipt */
+            .money {
+                direction: ltr !important;
+                unicode-bidi: plaintext !important;
+            }
+        }
+
+
+        .payroll-period-print {
+            display: none;
+        }
+
+        @media print {
+            .payroll-period-print {
+                display: block !important;
+                margin-top: 1mm !important;
+                font-size: 7px !important;
+                color: #111 !important;
+            }
+        }
+
+    </style>
+
+
+<style>
+/* =========================================================
+   GROOM ROOM - THERMAL 80MM PRINT
+   ========================================================= */
+@media print {
+    @page {
+        size: 80mm auto;
+        margin: 0;
+    }
+
+    html,
+    body {
+        width: 80mm !important;
+        min-width: 80mm !important;
+        max-width: 80mm !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        background: #fff !important;
+    }
+
+    body {
+        font-family: "Cairo", "Segoe UI", Tahoma, Arial, sans-serif !important;
+        color: #111 !important;
+        font-size: 9px !important;
+    }
+
+    .gr-navbar,
+    .gr-footer,
+    .navbar,
+    .filter-card,
+    .filter-form,
+    .quick-actions-grid,
+    .print-btn,
+    .print-button,
+    .payroll-print-actions,
+    .actions-title,
+    .actions-grid,
+    .no-print {
+        display: none !important;
+    }
+
+    .reports-page,
+    .payroll-page,
+    .page-container,
+    .report-page {
+        width: 80mm !important;
+        min-width: 80mm !important;
+        max-width: 80mm !important;
+        margin: 0 !important;
+        padding: 4mm !important;
+        box-sizing: border-box !important;
+    }
+
+    .dashboard-header,
+    .page-header,
+    .report-header {
+        text-align: center !important;
+        margin: 0 0 4mm !important;
+        padding: 0 0 3mm !important;
+        border-bottom: 1px dashed #111 !important;
+    }
+
+    .dashboard-header h1,
+    .page-header h1,
+    .report-header h1 {
+        margin: 0 !important;
+        font-size: 17px !important;
+        font-weight: 900 !important;
+    }
+
+    .dashboard-header h3,
+    .report-header h2 {
+        margin: 1mm 0 !important;
+        font-size: 13px !important;
+    }
+
+    .dashboard-header p,
+    .page-header p,
+    .report-date,
+    .page-subtitle {
+        margin: 0 !important;
+        color: #111 !important;
+        font-size: 8px !important;
+    }
+
+    .dashboard-card,
+    .summary-card,
+    .table-card,
+    .payroll-table-card,
+    .barber-card,
+    .net-card {
+        width: 100% !important;
+        box-sizing: border-box !important;
+        background: #fff !important;
+        box-shadow: none !important;
+        border-radius: 0 !important;
+        border: 0 !important;
+        margin: 0 0 3mm !important;
+        padding: 2mm 0 !important;
+    }
+
+    .card-header {
+        padding: 0 0 1.5mm !important;
+        margin: 0 !important;
+        border-bottom: 1px dashed #888 !important;
+    }
+
+    .card-header h2,
+    .barber-card h5 {
+        margin: 0 !important;
+        font-size: 11px !important;
+        font-weight: 900 !important;
+    }
+
+    .card-header p {
+        margin: 1mm 0 0 !important;
+        font-size: 7px !important;
+    }
+
+    /* Summary becomes a compact receipt list */
+    .summary-grid,
+    .reports-page .quick-actions-grid {
+        display: block !important;
+        margin: 0 !important;
+    }
+
+    .summary-card,
+    .stat-card {
+        display: flex !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+        padding: 1.3mm 0 !important;
+        margin: 0 !important;
+        border-radius: 0 !important;
+        border-bottom: 1px dotted #888 !important;
+        box-shadow: none !important;
+    }
+
+    .summary-label,
+    .summary-value,
+    .stat-label,
+    .stat-value {
+        margin: 0 !important;
+        font-size: 8px !important;
+        line-height: 1.25 !important;
+    }
+
+    .table-wrapper {
+        overflow: visible !important;
+        width: 100% !important;
+    }
+
+    table,
+    .payroll-table {
+        width: 100% !important;
+        min-width: 0 !important;
+        max-width: 100% !important;
+        table-layout: fixed !important;
+        border-collapse: collapse !important;
+        font-size: 7px !important;
+    }
+
+    th,
+    td,
+    .payroll-table th,
+    .payroll-table td {
+        padding: 1.1mm 0.5mm !important;
+        font-size: 7px !important;
+        line-height: 1.25 !important;
+        white-space: normal !important;
+        overflow-wrap: anywhere !important;
+        word-break: break-word !important;
+        border-bottom: 1px dotted #888 !important;
+        text-align: center !important;
+    }
+
+    th,
+    .payroll-table th {
+        background: #fff !important;
+        font-weight: 900 !important;
+    }
+
+    .payroll-table th:first-child,
+    .payroll-table td:first-child {
+        text-align: right !important;
+    }
+
+    .invoice-number,
+    .amount {
+        white-space: normal !important;
+        font-size: 7px !important;
+    }
+
+    .details-btn {
+        display: none !important;
+    }
+
+    .payment-badge {
+        padding: 0 !important;
+        background: transparent !important;
+        font-size: 7px !important;
+    }
+
+    .empty-state {
+        padding: 4mm 0 !important;
+        font-size: 8px !important;
+    }
+
+    /* Main reports: hide the custom filter section only, keep all report data */
+    .reports-page > section:nth-child(3) {
+        display: none !important;
+    }
+
+    .reports-page .dashboard-card {
+        page-break-inside: avoid;
+    }
+
+    .reports-page::after,
+    .payroll-page::after,
+    .page-container::after,
+    .report-page::after {
+        content: "GROOM ROOM";
+        display: block;
+        text-align: center;
+        margin-top: 4mm;
+        padding-top: 2mm;
+        border-top: 1px dashed #111;
+        font-size: 8px;
+        font-weight: 800;
+    }
+}
+</style>
+
+</head>
+
+<body class="professional-ui">
+
+<%- include('../partials/navbar', { user }) %>
+
+
+<div class="payroll-page">
+
+
+    <div class="page-header">
+
+        <h1>
+            تقرير المرتبات
+        </h1>
+
+        <p>
+            متابعة مرتبات الحلاقين
+        </p>
+
+        <div class="payroll-period-print">
+            <%= Number(month) %> / <%= year %>
+        </div>
+
+        <div class="payroll-print-actions">
+            <button
+                type="button"
+                class="filter-btn payroll-print-btn"
+                onclick="window.print()"
+            >
+                🖨️ طباعة تقرير المرتبات
+            </button>
+        </div>
+
+    </div>
+
+
+    <!-- FILTER -->
+
+    <div class="filter-card">
+
+        <form
+            method="GET"
+            action="/admin/payroll"
+            class="filter-form"
+        >
+
+            <div class="form-group">
+
+                <label>
+                    السنة
+                </label>
+
+                <select name="year">
+
+                    <% for (let y = year - 2; y <= year + 1; y++) { %>
+
+                        <option
+                            value="<%= y %>"
+                            <%= Number(year) === y ? 'selected' : '' %>
+                        >
+                            <%= y %>
+                        </option>
+
+                    <% } %>
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    الشهر
+                </label>
+
+                <select name="month">
+
+                    <% const months = [
+                        'يناير',
+                        'فبراير',
+                        'مارس',
+                        'أبريل',
+                        'مايو',
+                        'يونيو',
+                        'يوليو',
+                        'أغسطس',
+                        'سبتمبر',
+                        'أكتوبر',
+                        'نوفمبر',
+                        'ديسمبر'
+                    ]; %>
+
+                    <% months.forEach((monthName, index) => { %>
+
+                        <option
+                            value="<%= index + 1 %>"
+                            <%= Number(month) === index + 1 ? 'selected' : '' %>
+                        >
+                            <%= monthName %>
+                        </option>
+
+                    <% }) %>
+
+                </select>
+
+            </div>
+
+
+            <button
+                type="submit"
+                class="filter-btn"
+            >
+                عرض المرتبات
+            </button>
+
+        </form>
+
+    </div>
+
+
+    <!-- SUMMARY -->
+
+    <div class="summary-grid">
+
+        <div class="summary-card">
+
+            <div class="summary-label">
+                إجمالي الأساسي
+            </div>
+
+            <div class="summary-value money">
+                <%= Number(totalBasicSalary || 0).toFixed(2) %>
+                جنيه
+            </div>
+
+        </div>
+
+
+        <div class="summary-card">
+
+            <div class="summary-label">
+                إجمالي المستحق
+            </div>
+
+            <div class="summary-value money">
+                <%= Number(totalEarnedSalary || 0).toFixed(2) %>
+                جنيه
+            </div>
+
+        </div>
+
+
+        <div class="summary-card">
+
+            <div class="summary-label">
+                إجمالي البونصات
+            </div>
+
+            <div class="summary-value positive money">
+                <%= Number(totalBonuses || 0).toFixed(2) %>
+                جنيه
+            </div>
+
+        </div>
+
+
+        <div class="summary-card">
+
+            <div class="summary-label">
+                إجمالي الجزاءات
+            </div>
+
+            <div class="summary-value negative money">
+                - <%= Number(totalPenalties || 0).toFixed(2) %>
+                جنيه
+            </div>
+
+        </div>
+
+
+        <div class="summary-card">
+
+            <div class="summary-label">
+                إجمالي السلف
+            </div>
+
+            <div class="summary-value negative money">
+                - <%= Number(totalAdvances || 0).toFixed(2) %>
+                جنيه
+            </div>
+
+        </div>
+
+
+        <div class="summary-card">
+
+            <div class="summary-label">
+                صافي المرتبات
+            </div>
+
+            <div class="summary-value net-salary money">
+                <%= Number(totalNetSalary || 0).toFixed(2) %>
+                جنيه
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- PAYROLL TABLE -->
+
+    <div class="payroll-table-card">
+
+        <% if (!payroll || payroll.length === 0) { %>
+
+            <div class="empty-state">
+
+                <h3>
+                    لا يوجد حلاقين
+                </h3>
+
+                <p>
+                    لا يوجد حلاقين نشطين حالياً.
+                </p>
+
+            </div>
+
+        <% } else { %>
+
+            <div class="table-wrapper">
+
+                <table class="payroll-table">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                الحلاق
+                            </th>
+
+                            <th>
+                                الأساسي
+                            </th>
+
+                            <th>
+                                أيام العمل
+                            </th>
+
+                            <th>
+                                اليومي
+                            </th>
+
+                            <th>
+                                المستحق
+                            </th>
+
+                            <th>
+                                البونصات
+                            </th>
+
+                            <th>
+                                الجزاءات
+                            </th>
+
+                            <th>
+                                السلف
+                            </th>
+
+                            <th>
+                                صافي المرتب
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        <% payroll.forEach(barber => { %>
+
+                            <tr>
+
+                                <td class="barber-name">
+                                    <%= barber.BarberName %>
+                                </td>
+
+                                <td class="money">
+                                    <%= Number(barber.BasicSalary || 0).toFixed(2) %>
+                                    جنيه
+                                </td>
+
+                                <td>
+                                    <%= Number(barber.WorkedDays || 0) %>
+                                </td>
+
+                                <td class="money">
+                                    <%= Number(barber.DailySalary || 0).toFixed(2) %>
+                                    جنيه
+                                </td>
+
+                                <td class="money">
+                                    <%= Number(barber.EarnedSalary || 0).toFixed(2) %>
+                                    جنيه
+                                </td>
+
+                                <td class="positive money">
+                                    + <%= Number(barber.TotalBonuses || 0).toFixed(2) %>
+                                    جنيه
+                                </td>
+
+                                <td class="negative money">
+                                    - <%= Number(barber.TotalPenalties || 0).toFixed(2) %>
+                                    جنيه
+                                </td>
+
+                                <td class="negative money">
+                                    - <%= Number(barber.TotalAdvances || 0).toFixed(2) %>
+                                    جنيه
+                                </td>
+
+                                <td class="net-salary money">
+                                    <%= Number(barber.NetSalary || 0).toFixed(2) %>
+                                    جنيه
+                                </td>
+
+                            </tr>
+
+                        <% }) %>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        <% } %>
+
+    </div>
+
+
+    <!-- ACTIONS -->
+
+    <div class="actions-title">
+        إضافة حركة مالية
+    </div>
+
+
+    <div class="actions-grid">
+
+
+        <!-- BONUS -->
+
+        <div class="action-card">
+
+            <h3>
+                إضافة بونص
+            </h3>
+
+            <form
+                method="POST"
+                action="/admin/payroll/bonus"
+            >
+
+                <select
+                    name="barberId"
+                    required
+                >
+
+                    <option value="">
+                        اختر الحلاق
+                    </option>
+
+                    <% payroll.forEach(barber => { %>
+
+                        <option value="<%= barber.BarberId %>">
+                            <%= barber.BarberName %>
+                        </option>
+
+                    <% }) %>
+
+                </select>
+
+
+                <input
+                    type="number"
+                    name="amount"
+                    min="0.01"
+                    step="0.01"
+                    placeholder="قيمة البونص"
+                    required
+                >
+
+
+                <input
+                    type="date"
+                    name="date"
+                    required
+                >
+
+
+                <textarea
+                    name="reason"
+                    placeholder="سبب البونص"
+                ></textarea>
+
+
+                <button type="submit">
+                    إضافة البونص
+                </button>
+
+            </form>
+
+        </div>
+
+
+        <!-- PENALTY -->
+
+        <div class="action-card">
+
+            <h3>
+                إضافة جزاء
+            </h3>
+
+            <form
+                method="POST"
+                action="/admin/payroll/penalty"
+            >
+
+                <select
+                    name="barberId"
+                    required
+                >
+
+                    <option value="">
+                        اختر الحلاق
+                    </option>
+
+                    <% payroll.forEach(barber => { %>
+
+                        <option value="<%= barber.BarberId %>">
+                            <%= barber.BarberName %>
+                        </option>
+
+                    <% }) %>
+
+                </select>
+
+
+                <input
+                    type="number"
+                    name="amount"
+                    min="0.01"
+                    step="0.01"
+                    placeholder="قيمة الجزاء"
+                    required
+                >
+
+
+                <input
+                    type="date"
+                    name="date"
+                    required
+                >
+
+
+                <textarea
+                    name="reason"
+                    placeholder="سبب الجزاء"
+                ></textarea>
+
+
+                <button type="submit">
+                    إضافة الجزاء
+                </button>
+
+            </form>
+
+        </div>
+
+
+        <!-- ADVANCE -->
+
+        <div class="action-card">
+
+            <h3>
+                إضافة سلفة
+            </h3>
+
+            <form
+                method="POST"
+                action="/admin/payroll/advance"
+            >
+
+                <select
+                    name="barberId"
+                    required
+                >
+
+                    <option value="">
+                        اختر الحلاق
+                    </option>
+
+                    <% payroll.forEach(barber => { %>
+
+                        <option value="<%= barber.BarberId %>">
+                            <%= barber.BarberName %>
+                        </option>
+
+                    <% }) %>
+
+                </select>
+
+
+                <input
+                    type="number"
+                    name="amount"
+                    min="0.01"
+                    step="0.01"
+                    placeholder="قيمة السلفة"
+                    required
+                >
+
+
+                <input
+                    type="date"
+                    name="date"
+                    required
+                >
+
+
+                <textarea
+                    name="reason"
+                    placeholder="سبب السلفة"
+                ></textarea>
+
+
+                <button type="submit">
+                    إضافة السلفة
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+</div>
+
+
+<%- include('../partials/footer') %>
+
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const params = new URLSearchParams(window.location.search);
+
+    if (params.get('print') === '1') {
+        setTimeout(function () {
+            window.print();
+        }, 350);
+    }
+});
+</script>
+
+</body>
+
+</html>

@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Groom Room - Login</title>
+
+    <link rel="stylesheet" href="/css/professional.css">
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #111;
+            font-family: var(--gr-font);
+            padding: 20px;
+        }
+
+        .login-card {
+            width: 100%;
+            max-width: 400px;
+            padding: 35px;
+            background: #1c1c1c;
+            border-radius: 16px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+            animation: loginFadeUp 400ms ease both;
+        }
+
+        .brand {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .brand h1 {
+            margin: 0;
+            color: #fff;
+            font-size: 32px;
+            font-weight: 800;
+        }
+
+        .brand p {
+            margin-top: 8px;
+            color: #aaa;
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #ddd;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        input {
+            width: 100%;
+            padding: 13px;
+            border: 1px solid #444;
+            border-radius: 8px;
+            background: #111;
+            color: #fff;
+            font-size: 15px;
+            font-family: inherit;
+            transition:
+                border-color 180ms ease,
+                box-shadow 180ms ease,
+                transform 180ms ease;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #888;
+            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.07);
+        }
+
+        button {
+            width: 100%;
+            padding: 13px;
+            border: none;
+            border-radius: 8px;
+            background: #fff;
+            color: #111;
+            font-family: inherit;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition:
+                opacity 180ms ease,
+                transform 180ms ease,
+                box-shadow 180ms ease;
+        }
+
+        button:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+            box-shadow: 0 6px 18px rgba(255, 255, 255, 0.08);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .error {
+            margin-bottom: 18px;
+            padding: 12px;
+            border-radius: 8px;
+            background: #3a1616;
+            color: #ffb3b3;
+            text-align: center;
+            font-size: 14px;
+            animation: loginFadeUp 250ms ease both;
+        }
+
+        @keyframes loginFadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(8px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 480px) {
+
+            body {
+                padding: 15px;
+            }
+
+            .login-card {
+                padding: 28px 22px;
+                border-radius: 14px;
+            }
+
+            .brand h1 {
+                font-size: 28px;
+            }
+
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+
+            .login-card,
+            .error {
+                animation: none;
+            }
+
+            input,
+            button {
+                transition: none;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <div class="login-card">
+
+        <div class="brand">
+
+            <h1>
+                Groom Room
+            </h1>
+
+            <p>
+                Barber Shop Management System
+            </p>
+
+        </div>
+
+        <% if (error) { %>
+
+            <div class="error">
+                <%= error %>
+            </div>
+
+        <% } %>
+
+        <form method="POST" action="/login">
+
+            <div class="form-group">
+
+                <label for="username">
+                    Username
+                </label>
+
+                <input
+                    type="text"
+                    id="username"
+                    name="username"
+                    autocomplete="username"
+                    required
+                >
+
+            </div>
+
+            <div class="form-group">
+
+                <label for="password">
+                    Password
+                </label>
+
+                <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    autocomplete="current-password"
+                    required
+                >
+
+            </div>
+
+            <button type="submit">
+                Login
+            </button>
+
+        </form>
+
+    </div>
+
+</body>
+
+</html>

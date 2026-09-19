@@ -1,0 +1,279 @@
+/* =========================================================
+   GROOM ROOM — PROFESSIONAL UI ENHANCEMENTS
+   Loaded AFTER /css/admin.css
+   Keeps the existing layout and functionality intact.
+   ========================================================= */
+
+:root {
+    --gr-font: "Cairo", "Segoe UI", Tahoma, Arial, sans-serif;
+    --gr-text: #171717;
+    --gr-muted: #6b6b6b;
+    --gr-border: #e8e8e8;
+    --gr-surface: #ffffff;
+    --gr-background: #f7f7f7;
+    --gr-radius: 12px;
+    --gr-shadow: 0 4px 18px rgba(0, 0, 0, 0.055);
+    --gr-shadow-hover: 0 10px 28px rgba(0, 0, 0, 0.09);
+    --gr-transition: 180ms ease;
+}
+
+html,
+body {
+    font-family: var(--gr-font) !important;
+}
+
+body {
+    color: var(--gr-text);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    font-variant-numeric: tabular-nums;
+}
+
+button,
+input,
+select,
+textarea {
+    font-family: inherit !important;
+}
+
+button,
+a,
+input,
+select,
+textarea {
+    transition:
+        color var(--gr-transition),
+        background-color var(--gr-transition),
+        border-color var(--gr-transition),
+        box-shadow var(--gr-transition),
+        transform var(--gr-transition),
+        opacity var(--gr-transition);
+}
+
+/* Numbers stay aligned and easy to scan. */
+.stat-value,
+.summary-value,
+.period-card strong,
+table td,
+table th,
+.money,
+.amount,
+.price {
+    font-variant-numeric: tabular-nums;
+}
+
+/* ---------------------------------------------------------
+   Subtle entrance animation
+   --------------------------------------------------------- */
+
+.professional-ui .admin-dashboard {
+    animation: grPageIn 360ms ease both;
+}
+
+.professional-ui .dashboard-header,
+.professional-ui .dashboard-card,
+.professional-ui .stat-card,
+.professional-ui .quick-action-card,
+.professional-ui .period-card,
+.professional-ui .table-wrapper,
+.professional-ui .filter-card,
+.professional-ui .summary-card,
+.professional-ui .barber-card,
+.professional-ui .service-card,
+.professional-ui .action-card {
+    animation: grFadeUp 420ms ease both;
+}
+
+.professional-ui .stat-card:nth-child(2),
+.professional-ui .quick-action-card:nth-child(2),
+.professional-ui .period-card:nth-child(2) {
+    animation-delay: 35ms;
+}
+
+.professional-ui .stat-card:nth-child(3),
+.professional-ui .quick-action-card:nth-child(3),
+.professional-ui .period-card:nth-child(3) {
+    animation-delay: 70ms;
+}
+
+.professional-ui .stat-card:nth-child(4),
+.professional-ui .quick-action-card:nth-child(4) {
+    animation-delay: 105ms;
+}
+
+.professional-ui .stat-card:nth-child(5) {
+    animation-delay: 140ms;
+}
+
+.professional-ui .stat-card:nth-child(6) {
+    animation-delay: 175ms;
+}
+
+@keyframes grPageIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes grFadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(7px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ---------------------------------------------------------
+   Cards
+   --------------------------------------------------------- */
+
+.professional-ui .dashboard-card,
+.professional-ui .stat-card,
+.professional-ui .quick-action-card,
+.professional-ui .period-card,
+.professional-ui .barber-card,
+.professional-ui .service-card {
+    border-radius: var(--gr-radius);
+}
+
+.professional-ui .dashboard-card:hover,
+.professional-ui .stat-card:hover,
+.professional-ui .period-card:hover,
+.professional-ui .barber-card:hover,
+.professional-ui .service-card:hover {
+    box-shadow: var(--gr-shadow-hover);
+    transform: translateY(-2px);
+}
+
+/* Dashboard remains neutral/black as requested.
+   Do NOT color bonus/expense/advance dashboard stats. */
+.professional-ui .stat-card .stat-label,
+.professional-ui .stat-card .stat-value {
+    color: inherit;
+}
+
+/* ---------------------------------------------------------
+   Buttons
+   --------------------------------------------------------- */
+
+.professional-ui .primary-btn,
+.professional-ui .danger-btn,
+.professional-ui button {
+    font-weight: 700;
+}
+
+.professional-ui .primary-btn:hover,
+.professional-ui .danger-btn:hover,
+.professional-ui button:hover {
+    transform: translateY(-1px);
+}
+
+.professional-ui .primary-btn:active,
+.professional-ui .danger-btn:active,
+.professional-ui button:active {
+    transform: translateY(0);
+}
+
+/* ---------------------------------------------------------
+   Forms
+   --------------------------------------------------------- */
+
+.professional-ui input:focus,
+.professional-ui select:focus,
+.professional-ui textarea:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.07);
+}
+
+/* ---------------------------------------------------------
+   Tables
+   --------------------------------------------------------- */
+
+.professional-ui table {
+    font-variant-numeric: tabular-nums;
+}
+
+.professional-ui table tbody tr {
+    transition:
+        background-color var(--gr-transition),
+        transform var(--gr-transition);
+}
+
+.professional-ui table tbody tr:hover {
+    background: #fafafa;
+}
+
+/* ---------------------------------------------------------
+   Navbar polish
+   --------------------------------------------------------- */
+
+.professional-ui .gr-navbar {
+    box-shadow: 0 2px 14px rgba(0, 0, 0, 0.055);
+}
+
+.professional-ui .gr-nav-link {
+    transition:
+        color var(--gr-transition),
+        background-color var(--gr-transition),
+        transform var(--gr-transition);
+}
+
+.professional-ui .gr-nav-link:hover {
+    transform: translateY(-1px);
+}
+
+/* ---------------------------------------------------------
+   Footer
+   --------------------------------------------------------- */
+
+.professional-ui .gr-footer {
+    margin-top: 32px;
+}
+
+/* ---------------------------------------------------------
+   Mobile
+   --------------------------------------------------------- */
+
+@media (max-width: 768px) {
+    .professional-ui .dashboard-header h1 {
+        letter-spacing: 0;
+    }
+
+    .professional-ui .dashboard-card,
+    .professional-ui .stat-card,
+    .professional-ui .quick-action-card,
+    .professional-ui .period-card {
+        box-shadow: var(--gr-shadow);
+    }
+
+    .professional-ui .dashboard-card:hover,
+    .professional-ui .stat-card:hover,
+    .professional-ui .period-card:hover,
+    .professional-ui .barber-card:hover,
+    .professional-ui .service-card:hover {
+        transform: none;
+    }
+}
+
+/* ---------------------------------------------------------
+   Accessibility
+   --------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+    .professional-ui *,
+    .professional-ui *::before,
+    .professional-ui *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+    }
+}

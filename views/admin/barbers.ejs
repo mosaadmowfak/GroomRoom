@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>الحلاقين - Groom Room</title>
+
+    <link
+        rel="stylesheet"
+        href="/css/admin.css"
+    >
+
+    <style>
+
+        .barbers-page {
+            margin-top: 24px;
+            margin-bottom: 40px;
+        }
+
+        .barbers-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            gap: 20px;
+        }
+
+        .barbers-header h2 {
+            font-weight: 700;
+        }
+
+        .barbers-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 16px;
+        }
+
+        .barber-card {
+            background: #fff;
+            border: 1px solid #eee;
+            border-radius: 10px;
+            height: 100%;
+            box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .075);
+            transition:
+                transform .15s ease,
+                box-shadow .15s ease;
+        }
+
+        .barber-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 .3rem .8rem rgba(0, 0, 0, .10);
+        }
+
+        .barber-card-body {
+            padding: 24px;
+        }
+
+        .barber-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .barber-name {
+            margin: 0;
+            font-size: 18px;
+            font-weight: 700;
+            word-break: break-word;
+            line-height: 1.5;
+        }
+
+        .barber-status {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            white-space: nowrap;
+            padding: 5px 10px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .barber-status.active {
+            background: #198754;
+            color: #fff;
+        }
+
+        .barber-status.inactive {
+            background: #6c757d;
+            color: #fff;
+        }
+
+        .barber-salary {
+            margin-bottom: 24px;
+        }
+
+        .barber-salary-label {
+            color: #6c757d;
+            margin-bottom: 4px;
+            font-size: 14px;
+        }
+
+        .barber-salary-value {
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .barber-actions {
+            width: 100%;
+            display: flex;
+            gap: 8px;
+        }
+
+        .barber-actions form {
+            margin: 0;
+            flex: 1;
+        }
+
+        .barber-edit-btn,
+        .barber-toggle-btn {
+            min-height: 38px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-family: inherit;
+            box-sizing: border-box;
+        }
+
+        .barber-edit-btn {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            background: #212529;
+            border: 1px solid #212529;
+            color: #fff;
+        }
+
+        .barber-edit-btn:hover {
+            background: #000;
+            border-color: #000;
+            color: #fff;
+        }
+
+        .barber-toggle-btn {
+            width: 100%;
+            padding: 6px 12px;
+            background: transparent;
+            cursor: pointer;
+        }
+
+        .barber-toggle-btn.disable {
+            color: #dc3545;
+            border: 1px solid #dc3545;
+        }
+
+        .barber-toggle-btn.disable:hover {
+            background: #dc3545;
+            color: #fff;
+        }
+
+        .barber-toggle-btn.enable {
+            color: #198754;
+            border: 1px solid #198754;
+        }
+
+        .barber-toggle-btn.enable:hover {
+            background: #198754;
+            color: #fff;
+        }
+
+        .empty-barbers {
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .075);
+        }
+
+        .empty-barbers-body {
+            text-align: center;
+            color: #6c757d;
+            padding: 50px 20px;
+        }
+
+        @media (max-width: 991px) {
+
+            .barbers-grid {
+                grid-template-columns: repeat(
+                    2,
+                    minmax(0, 1fr)
+                );
+            }
+
+        }
+
+        @media (max-width: 576px) {
+
+            .barbers-page {
+                margin-top: 20px;
+                padding-left: 12px;
+                padding-right: 12px;
+            }
+
+            .barbers-header {
+                align-items: stretch;
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .barbers-header h2 {
+                font-size: 24px;
+            }
+
+            .barbers-header .primary-btn {
+                width: 100%;
+                text-align: center;
+                box-sizing: border-box;
+            }
+
+            .barbers-grid {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+
+            .barber-card-body {
+                padding: 20px;
+            }
+
+            .barber-name {
+                font-size: 18px;
+            }
+
+            .barber-actions {
+                flex-direction: column;
+            }
+
+            .barber-actions .barber-edit-btn,
+            .barber-actions form,
+            .barber-actions .barber-toggle-btn {
+                width: 100%;
+                min-height: 42px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <%- include('../partials/navbar', { user: user }) %>
+
+
+    <div class="admin-dashboard">
+
+        <div class="barbers-page">
+
+
+            <!-- Header -->
+
+            <div class="barbers-header">
+
+                <div>
+
+                    <h2 class="mb-1">
+                        الحلاقين
+                    </h2>
+
+                    <p class="text-muted mb-0">
+                        إدارة الحلاقين والمرتبات
+                    </p>
+
+                </div>
+
+
+                <div class="barbers-header-actions">
+
+                    <a
+                        href="/admin/reports?period=month&report=barbers&print=1"
+                        target="_blank"
+                        class="primary-btn barber-report-print-btn"
+                    >
+                        🖨️ طباعة تقرير الحلاقين
+                    </a>
+
+                    <a
+                        href="/admin/barbers/create"
+                        class="primary-btn"
+                    >
+                        + إضافة حلاق
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <!-- Barbers -->
+
+            <% if (barbers && barbers.length > 0) { %>
+
+                <div class="barbers-grid">
+
+                    <% barbers.forEach(barber => { %>
+
+                        <div class="barber-card">
+
+                            <div class="barber-card-body">
+
+
+                                <!-- Name + Status -->
+
+                                <div class="barber-top">
+
+                                    <h5 class="barber-name">
+                                        <%= barber.Name %>
+                                    </h5>
+
+
+                                    <% if (barber.IsActive) { %>
+
+                                        <span class="barber-status active">
+                                            نشط
+                                        </span>
+
+                                    <% } else { %>
+
+                                        <span class="barber-status inactive">
+                                            غير نشط
+                                        </span>
+
+                                    <% } %>
+
+                                </div>
+
+
+                                <!-- Salary -->
+
+                                <div class="barber-salary">
+
+                                    <div class="barber-salary-label">
+                                        المرتب الأساسي
+                                    </div>
+
+                                    <div class="barber-salary-value">
+
+                                        <%= Number(
+                                            barber.BasicSalary || 0
+                                        ).toLocaleString('en-US', {
+                                            minimumFractionDigits: 2,
+                                            maximumFractionDigits: 2
+                                        }) %>
+
+                                        جنيه
+
+                                    </div>
+
+                                </div>
+
+
+                                <!-- Actions -->
+
+                                <div class="barber-actions">
+
+
+                                    <!-- Edit -->
+
+                                    <a
+                                        href="/admin/barbers/edit/<%= barber.Id %>"
+                                        class="barber-edit-btn"
+                                    >
+                                        تعديل
+                                    </a>
+
+
+                                    <!-- Toggle -->
+
+                                    <form
+                                        method="POST"
+                                        action="/admin/barbers/toggle/<%= barber.Id %>"
+                                    >
+
+                                        <% if (barber.IsActive) { %>
+
+                                            <button
+                                                type="submit"
+                                                class="barber-toggle-btn disable"
+                                            >
+                                                تعطيل
+                                            </button>
+
+                                        <% } else { %>
+
+                                            <button
+                                                type="submit"
+                                                class="barber-toggle-btn enable"
+                                            >
+                                                تفعيل
+                                            </button>
+
+                                        <% } %>
+
+                                    </form>
+
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    <% }) %>
+
+                </div>
+
+            <% } else { %>
+
+
+                <div class="empty-barbers">
+
+                    <div class="empty-barbers-body">
+
+                        لا يوجد حلاقين مسجلين حتى الآن.
+
+                    </div>
+
+                </div>
+
+
+            <% } %>
+
+        </div>
+
+    </div>
+
+
+    <%- include('../partials/footer') %>
+
+</body>
+
+</html>

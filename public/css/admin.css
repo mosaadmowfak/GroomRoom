@@ -1,0 +1,1423 @@
+/* =========================================
+   GROOM ROOM - PROFESSIONAL TYPOGRAPHY
+   ========================================= */
+
+/* Cairo is clean, highly readable Arabic UI font */
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap');
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    direction: rtl;
+}
+
+body {
+    margin: 0;
+    background: #f7f7f7;
+    color: #212121;
+    font-family:
+        "Cairo",
+        "Segoe UI",
+        Tahoma,
+        Arial,
+        sans-serif;
+    font-variant-numeric: tabular-nums;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+}
+
+a {
+    text-decoration: none;
+}
+
+button,
+input,
+select,
+textarea {
+    font-family: inherit;
+    font-variant-numeric: tabular-nums;
+}
+
+button,
+a {
+    -webkit-tap-highlight-color: transparent;
+}
+
+
+/* =========================
+   Admin Dashboard
+   ========================= */
+
+.admin-dashboard {
+    width: min(1180px, calc(100% - 32px));
+    margin: 35px auto 60px;
+}
+
+.dashboard-header {
+    text-align: center;
+    margin-bottom: 38px;
+}
+
+.dashboard-header h1 {
+    margin: 0;
+    font-size: 36px;
+    font-weight: 800;
+    letter-spacing: 1px;
+}
+
+.dashboard-header h3 {
+    margin: 8px 0 0;
+    font-size: 25px;
+}
+
+.dashboard-header p {
+    margin: 10px 0 0;
+    color: #777;
+    font-size: 15px;
+}
+
+
+/* =========================
+   Dashboard Cards
+   ========================= */
+
+.dashboard-card {
+    background: #fff;
+    border: 1px solid #e5e5e5;
+    border-radius: 12px;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.05);
+}
+
+.business-day-card {
+    margin-bottom: 30px;
+}
+
+.card-header {
+    padding: 25px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    gap: 20px;
+}
+
+.card-header h2 {
+    margin: 0;
+    font-size: 21px;
+}
+
+.card-header p {
+    margin-bottom: 0;
+}
+
+.business-day-info {
+    padding: 0 25px 25px;
+
+    display: flex;
+    gap: 50px;
+
+    border-top: 1px solid #eee;
+    padding-top: 20px;
+}
+
+.business-day-info div {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.business-day-info span {
+    color: #777;
+    font-size: 14px;
+}
+
+.business-day-info strong {
+    font-size: 15px;
+}
+
+
+/* Old-compatible business day classes */
+
+.business-day-content {
+    padding: 25px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    gap: 20px;
+}
+
+.business-day-content h4 {
+    margin: 0 0 10px;
+    font-size: 21px;
+}
+
+.muted {
+    color: #777;
+}
+
+.status-open {
+    margin-top: 7px;
+    color: #198754;
+    font-weight: 700;
+}
+
+.status-closed {
+    color: #dc3545;
+    font-weight: 700;
+}
+
+
+/* =========================
+   Buttons
+   ========================= */
+
+.primary-btn,
+.danger-btn {
+    min-height: 44px;
+
+    padding: 10px 18px;
+
+    border-radius: 8px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: 0.15s ease;
+
+    white-space: nowrap;
+}
+
+.primary-btn {
+    background: #222;
+    border: 1px solid #222;
+    color: #fff;
+}
+
+.primary-btn:hover {
+    opacity: 0.9;
+}
+
+.danger-btn {
+    background: #dc3545;
+    border: 1px solid #dc3545;
+    color: #fff;
+}
+
+.danger-btn:hover {
+    opacity: 0.9;
+}
+
+.logout-btn {
+    margin-top: 18px;
+
+    border: 1px solid #222;
+    background: #222;
+    color: white;
+
+    min-height: 44px;
+
+    padding: 10px 20px;
+
+    border-radius: 8px;
+
+    cursor: pointer;
+
+    font-size: 14px;
+}
+
+.logout-btn:hover {
+    opacity: 0.9;
+}
+
+.business-actions {
+    display: flex;
+    align-items: center;
+
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.btn {
+    min-height: 44px;
+
+    padding: 10px 18px;
+
+    border-radius: 8px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 14px;
+
+    cursor: pointer;
+
+    border: 1px solid transparent;
+
+    transition: 0.15s ease;
+
+    white-space: nowrap;
+}
+
+.btn-success {
+    background: #198754;
+    color: #fff;
+}
+
+.btn-danger {
+    background: #dc3545;
+    color: #fff;
+}
+
+.btn-outline {
+    background: #fff;
+    border-color: #333;
+    color: #222;
+}
+
+.btn:hover {
+    transform: translateY(-1px);
+}
+
+.btn-small {
+    min-height: 38px;
+    font-size: 13px;
+    margin-top: 14px;
+}
+
+
+/* =========================
+   Sections
+   ========================= */
+
+.section-title {
+    margin: 0 0 15px;
+}
+
+.section-title h2 {
+    margin: 0;
+    font-size: 21px;
+}
+
+.section-heading {
+    display: flex;
+
+    justify-content: space-between;
+    align-items: center;
+
+    gap: 15px;
+
+    margin-bottom: 15px;
+}
+
+.section-heading h4 {
+    margin: 0;
+    font-size: 21px;
+}
+
+
+/* =========================
+   Statistics
+   ========================= */
+
+.stats-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 16px;
+
+    margin-bottom: 40px;
+}
+
+.stat-card {
+    min-height: 150px;
+
+    padding: 25px;
+
+    display: flex;
+    flex-direction: column;
+
+    justify-content: center;
+    align-items: center;
+
+    text-align: center;
+
+    background: #fff;
+
+    border: 1px solid #e5e5e5;
+    border-radius: 12px;
+
+    box-shadow:
+        0 3px 12px rgba(0, 0, 0, 0.05);
+}
+
+.stat-label {
+    color: #777;
+
+    margin-bottom: 12px;
+
+    font-size: 15px;
+}
+
+.stat-title {
+    color: #777;
+    margin-bottom: 12px;
+    font-size: 15px;
+}
+
+.stat-value {
+    font-size: 32px;
+
+    font-weight: 800;
+
+    line-height: 1.2;
+
+    overflow-wrap: anywhere;
+}
+
+.stat-number {
+    font-size: 32px;
+
+    font-weight: 800;
+
+    line-height: 1.2;
+
+    overflow-wrap: anywhere;
+}
+
+.stat-number span,
+.period-number span {
+    font-size: 0.55em;
+    font-weight: 400;
+}
+
+.stat-card.highlight {
+    background: #fff;
+    border-color: #222;
+}
+
+
+/* =========================
+   Quick Actions
+   ========================= */
+
+.quick-actions-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 16px;
+
+    margin-bottom: 40px;
+}
+
+.quick-action-card {
+    min-height: 130px;
+
+    padding: 22px;
+
+    border: 1px solid #333;
+    border-radius: 10px;
+
+    background: #fff;
+    color: #222;
+
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+
+    transition: 0.15s ease;
+}
+
+.quick-action-card:hover {
+    background: #f0f0f0;
+    transform: translateY(-1px);
+}
+
+.quick-action-icon {
+    font-size: 32px;
+    margin-bottom: 10px;
+}
+
+.quick-action-card strong {
+    font-size: 17px;
+}
+
+.quick-action-card > span:last-child {
+    margin-top: 7px;
+
+    color: #777;
+
+    font-size: 13px;
+}
+
+
+/* Old-compatible quick actions */
+
+.quick-actions {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 16px;
+
+    margin-bottom: 40px;
+}
+
+.quick-action {
+    min-height: 55px;
+
+    padding: 15px;
+
+    border: 1px solid #333;
+    border-radius: 9px;
+
+    background: #fff;
+    color: #222;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.quick-action:hover {
+    background: #f0f0f0;
+}
+
+
+/* =========================
+   Period Reports
+   ========================= */
+
+.period-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+
+    gap: 16px;
+
+    margin-bottom: 40px;
+}
+
+.period-card {
+    padding: 25px;
+
+    text-align: center;
+
+    background: #fff;
+
+    border: 1px solid #e5e5e5;
+    border-radius: 12px;
+
+    box-shadow:
+        0 3px 12px rgba(0, 0, 0, 0.05);
+}
+
+.period-card h5 {
+    margin: 0;
+    font-size: 18px;
+}
+
+.period-card > span {
+    display: block;
+
+    color: #777;
+
+    font-size: 15px;
+}
+
+.period-card strong {
+    display: block;
+
+    margin-top: 18px;
+
+    font-size: 27px;
+
+    font-weight: 800;
+
+    overflow-wrap: anywhere;
+}
+
+.period-card small {
+    display: block;
+
+    margin-top: 8px;
+
+    color: #777;
+}
+
+.period-number {
+    margin-top: 18px;
+
+    font-size: 27px;
+
+    font-weight: 800;
+
+    overflow-wrap: anywhere;
+}
+
+
+/* =========================
+   Barber Report
+   ========================= */
+
+.barber-report {
+    overflow: hidden;
+}
+
+.report-header {
+    padding: 25px 25px 15px;
+}
+
+.report-header h4 {
+    margin: 0 0 7px;
+    font-size: 21px;
+}
+
+.report-header p {
+    margin: 0;
+    color: #777;
+}
+
+.barber-report-table {
+    width: 100%;
+    min-width: 550px;
+
+    border-collapse: collapse;
+}
+
+.table-wrapper {
+    width: 100%;
+
+    overflow-x: auto;
+
+    -webkit-overflow-scrolling: touch;
+}
+
+table {
+    width: 100%;
+
+    min-width: 550px;
+
+    border-collapse: collapse;
+}
+
+thead {
+    background: #f8f8f8;
+}
+
+th,
+td {
+    padding: 15px 18px;
+
+    border-bottom: 1px solid #eee;
+}
+
+th {
+    font-weight: 700;
+}
+
+.center {
+    text-align: center;
+}
+
+.sales {
+    text-align: right;
+    font-weight: 700;
+}
+
+.barber-name {
+    font-weight: 700;
+}
+
+.empty-state,
+.empty-table {
+    padding: 35px;
+
+    text-align: center;
+
+    color: #777;
+}
+
+
+/* =========================
+   Barber Dashboard
+   ========================= */
+
+.barber-menu-card {
+    max-width: 650px;
+
+    margin: 0 auto;
+
+    overflow: hidden;
+}
+
+.barber-action {
+    min-height: 230px;
+
+    padding: 35px 25px;
+
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+
+    color: #222;
+
+    transition: 0.15s ease;
+}
+
+.barber-action:hover {
+    background: #f8f8f8;
+}
+
+.barber-action-icon {
+    font-size: 55px;
+    margin-bottom: 15px;
+}
+
+.barber-action-title {
+    font-size: 26px;
+    font-weight: 800;
+}
+
+.barber-action-description {
+    margin-top: 10px;
+
+    color: #777;
+
+    font-size: 15px;
+}
+
+
+/* =========================================
+   GROOM ROOM NAVBAR
+   ========================================= */
+
+.gr-navbar {
+    width: 100%;
+
+    background: #fff;
+
+    border-bottom: 1px solid #eee;
+
+    box-shadow:
+        0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.gr-navbar-container {
+    width: 100%;
+
+    max-width: 1140px;
+
+    min-height: 72px;
+
+    margin: 0 auto;
+
+    padding: 0 15px;
+
+    display: flex;
+    align-items: center;
+}
+
+.gr-navbar-brand {
+    display: flex;
+    align-items: center;
+
+    text-decoration: none;
+}
+
+.groom-room-logo {
+    height: 48px;
+
+    width: auto;
+
+    max-width: 180px;
+
+    object-fit: contain;
+
+    display: block;
+}
+
+.gr-navbar-toggler {
+    display: none;
+
+    width: 44px;
+    height: 40px;
+
+    margin-right: auto;
+
+    border: 1px solid #ddd;
+
+    border-radius: 6px;
+
+    background: #fff;
+
+    cursor: pointer;
+
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 5px;
+}
+
+.gr-navbar-toggler span {
+    display: block;
+
+    width: 22px;
+    height: 2px;
+
+    background: #222;
+}
+
+.gr-navbar-collapse {
+    flex: 1;
+
+    display: flex;
+
+    align-items: center;
+
+    margin-right: 30px;
+}
+
+.gr-navbar-nav {
+    list-style: none;
+
+    margin: 0;
+    padding: 0;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 4px;
+}
+
+.gr-nav-item {
+    margin: 0;
+    padding: 0;
+}
+
+.gr-nav-link {
+    display: block;
+
+    padding: 10px 12px;
+
+    color: #333;
+
+    text-decoration: none;
+
+    font-size: 14px;
+
+    border-radius: 6px;
+
+    transition:
+        background 0.15s ease,
+        color 0.15s ease;
+}
+
+.gr-nav-link:hover {
+    background: #f5f5f5;
+    color: #111;
+}
+
+.gr-nav-link-bold {
+    font-weight: 700;
+}
+
+.gr-navbar-account {
+    margin-right: auto;
+
+    padding-right: 15px;
+}
+
+.gr-logout-form {
+    margin: 0;
+}
+
+.gr-logout-button,
+.gr-login-button {
+    min-height: 40px;
+
+    padding: 8px 18px;
+
+    border-radius: 6px;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    text-decoration: none;
+
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+}
+
+.gr-logout-button {
+    border: 1px solid #222;
+
+    background: #fff;
+
+    color: #222;
+}
+
+.gr-logout-button:hover {
+    background: #f5f5f5;
+}
+
+.gr-login-button {
+    border: 1px solid #222;
+
+    background: #222;
+
+    color: #fff;
+}
+
+.gr-login-button:hover {
+    opacity: 0.9;
+}
+
+
+/* =========================================
+   GROOM ROOM FOOTER
+   ========================================= */
+
+.gr-footer {
+    width: 100%;
+
+    margin-top: 50px;
+
+    padding: 15px 0;
+
+    border-top: 1px solid #eee;
+
+    color: #777;
+
+    background: #fff;
+
+    text-align: center;
+
+    font-size: 14px;
+}
+
+.gr-footer-container {
+    width: 100%;
+
+    max-width: 1140px;
+
+    margin: 0 auto;
+
+    padding: 0 15px;
+}
+
+.gr-footer-developed {
+    margin-top: 5px;
+}
+
+.gr-footer-developed a {
+    color: #222;
+
+    font-weight: 700;
+
+    text-decoration: none;
+}
+
+.gr-footer-developed a:hover {
+    text-decoration: underline;
+}
+
+
+
+/* =========================================
+   Professional Micro Animations
+   ========================================= */
+
+@keyframes gr-fade-up {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.dashboard-card,
+.stat-card,
+.quick-action-card,
+.period-card,
+.barber-action {
+    animation: gr-fade-up 0.45s ease both;
+}
+
+.dashboard-card {
+    transition:
+        box-shadow 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.dashboard-card:hover {
+    box-shadow: 0 7px 22px rgba(0, 0, 0, 0.07);
+}
+
+.stat-card {
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 7px 20px rgba(0, 0, 0, 0.07);
+}
+
+.quick-action-card {
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        background 0.2s ease;
+}
+
+.quick-action-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 7px 20px rgba(0, 0, 0, 0.07);
+}
+
+.period-card {
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.period-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 7px 20px rgba(0, 0, 0, 0.07);
+}
+
+.primary-btn,
+.danger-btn,
+.btn,
+.logout-btn,
+.gr-logout-button,
+.gr-login-button {
+    transition:
+        transform 0.18s ease,
+        opacity 0.18s ease,
+        box-shadow 0.18s ease,
+        background 0.18s ease;
+}
+
+.primary-btn:hover,
+.danger-btn:hover,
+.btn:hover,
+.logout-btn:hover,
+.gr-logout-button:hover,
+.gr-login-button:hover {
+    transform: translateY(-1px);
+}
+
+.gr-navbar {
+    transition: box-shadow 0.2s ease;
+}
+
+.gr-nav-link {
+    position: relative;
+}
+
+.gr-nav-link::after {
+    content: "";
+    position: absolute;
+    right: 12px;
+    left: 12px;
+    bottom: 4px;
+    height: 2px;
+    background: #222;
+    transform: scaleX(0);
+    transform-origin: center;
+    transition: transform 0.2s ease;
+}
+
+.gr-nav-link:hover::after {
+    transform: scaleX(1);
+}
+
+.gr-navbar-toggler {
+    transition:
+        background 0.18s ease,
+        border-color 0.18s ease,
+        transform 0.18s ease;
+}
+
+.gr-navbar-toggler:hover {
+    background: #f5f5f5;
+    transform: translateY(-1px);
+}
+
+.gr-portfolio-link {
+    transition:
+        opacity 0.2s ease,
+        transform 0.2s ease;
+}
+
+.gr-portfolio-link:hover {
+    transform: translateY(-1px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+/* =========================================
+   Responsive
+   ========================================= */
+
+@media (max-width: 900px) {
+
+    .admin-dashboard {
+        width: min(100% - 24px, 760px);
+
+        margin-top: 25px;
+    }
+
+    .dashboard-header h1 {
+        font-size: 32px;
+    }
+
+    .business-day-content {
+        align-items: stretch;
+
+        flex-direction: column;
+    }
+
+    .business-actions {
+        width: 100%;
+    }
+
+    .business-actions .btn,
+    .business-actions form {
+        flex: 1;
+    }
+
+    .business-actions form .btn {
+        width: 100%;
+    }
+
+    .period-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .card-header {
+        align-items: stretch;
+
+        flex-direction: column;
+    }
+
+    .card-header .primary-btn,
+    .card-header .danger-btn {
+        width: 100%;
+    }
+
+    .business-day-info {
+        flex-direction: column;
+
+        gap: 15px;
+    }
+}
+
+
+/* =========================================
+   Navbar Mobile
+   ========================================= */
+
+@media (max-width: 991.98px) {
+
+    .gr-navbar-container {
+        min-height: 64px;
+
+        flex-wrap: wrap;
+    }
+
+    .gr-navbar-toggler {
+        display: flex;
+    }
+
+    .gr-navbar-collapse {
+        display: none;
+
+        width: 100%;
+
+        flex-basis: 100%;
+
+        margin: 0;
+
+        padding: 10px 0 5px;
+
+        flex-direction: column;
+
+        align-items: stretch;
+    }
+
+    .gr-navbar-collapse.show {
+        display: flex;
+    }
+
+    .gr-navbar-nav {
+        width: 100%;
+
+        flex-direction: column;
+
+        align-items: stretch;
+
+        gap: 0;
+    }
+
+    .gr-nav-item {
+        border-bottom: 1px solid #eee;
+    }
+
+    .gr-nav-link {
+        width: 100%;
+
+        padding: 12px 5px;
+
+        text-align: right;
+    }
+
+    .gr-navbar-account {
+        width: 100%;
+
+        margin: 15px 0 5px;
+
+        padding: 0;
+    }
+
+    .gr-logout-form {
+        width: 100%;
+    }
+
+    .gr-logout-button,
+    .gr-login-button {
+        width: 100%;
+    }
+}
+
+
+/* =========================================
+   Mobile
+   ========================================= */
+
+@media (max-width: 576px) {
+
+    .admin-dashboard {
+        width: calc(100% - 20px);
+
+        margin: 20px auto 40px;
+    }
+
+    .dashboard-header {
+        margin-bottom: 28px;
+    }
+
+    .dashboard-header h1 {
+        font-size: 28px;
+    }
+
+    .dashboard-header h3 {
+        font-size: 21px;
+    }
+
+    .dashboard-header p {
+        font-size: 14px;
+
+        line-height: 1.6;
+    }
+
+    .logout-btn {
+        width: 100%;
+    }
+
+    .business-day-content {
+        padding: 20px;
+    }
+
+    .business-actions {
+        flex-direction: column;
+    }
+
+    .business-actions .btn,
+    .business-actions form {
+        width: 100%;
+
+        flex: none;
+    }
+
+    .business-actions form .btn {
+        width: 100%;
+    }
+
+    .section-heading {
+        align-items: stretch;
+
+        flex-direction: column;
+    }
+
+    .section-heading .btn {
+        width: 100%;
+    }
+
+    .stats-grid {
+        grid-template-columns: 1fr;
+
+        gap: 12px;
+    }
+
+    .stat-card {
+        min-height: 135px;
+
+        padding: 20px;
+    }
+
+    .stat-number,
+    .stat-value {
+        font-size: 30px;
+    }
+
+    .quick-actions,
+    .quick-actions-grid {
+        grid-template-columns: 1fr;
+
+        gap: 12px;
+    }
+
+    .period-card {
+        padding: 22px 18px;
+    }
+
+    .period-number {
+        font-size: 25px;
+    }
+
+    .report-header {
+        padding: 20px;
+    }
+
+    th,
+    td {
+        padding: 11px 10px;
+
+        font-size: 13px;
+    }
+
+    table {
+        min-width: 500px;
+    }
+
+    .barber-menu-card {
+        width: 100%;
+    }
+
+    .barber-action {
+        min-height: 200px;
+
+        padding: 30px 20px;
+    }
+
+    .barber-action-icon {
+        font-size: 48px;
+    }
+
+    .barber-action-title {
+        font-size: 23px;
+    }
+
+    .groom-room-logo {
+        height: 42px;
+
+        max-width: 160px;
+    }
+
+    .gr-navbar-container {
+        padding-top: 8px;
+
+        padding-bottom: 8px;
+    }
+
+    .gr-navbar-toggler {
+        width: 42px;
+
+        height: 38px;
+    }
+
+    .gr-footer {
+        font-size: 13px;
+    }
+}
+
+
+/* =========================================
+   Extra Small
+   ========================================= */
+
+@media (max-width: 360px) {
+
+    .admin-dashboard {
+        width: calc(100% - 16px);
+    }
+
+    .dashboard-header h1 {
+        font-size: 25px;
+    }
+
+    .stat-number,
+    .stat-value {
+        font-size: 27px;
+    }
+
+    .btn {
+        width: 100%;
+    }
+}

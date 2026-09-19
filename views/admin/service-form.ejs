@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>
+        <%= service ? 'تعديل خدمة' : 'إضافة خدمة' %> - Groom Room
+    </title>
+
+    <link rel="stylesheet" href="/css/admin.css">
+
+    <style>
+        .service-form-page {
+            margin-top: 24px;
+            margin-bottom: 40px;
+        }
+
+        .service-form-header {
+            margin-bottom: 24px;
+        }
+
+        .service-form-header h1 {
+            font-weight: 700;
+        }
+
+        .service-form-card {
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .075);
+        }
+
+        .service-form-card-body {
+            padding: 24px;
+        }
+
+        .service-form-group {
+            margin-bottom: 16px;
+        }
+
+        .service-form-group.last {
+            margin-bottom: 24px;
+        }
+
+        .service-form-label {
+            display: block;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .service-form-control {
+            width: 100%;
+            box-sizing: border-box;
+            min-height: 48px;
+            padding: 10px 14px;
+            border: 1px solid #ced4da;
+            border-radius: 6px;
+            background: #fff;
+            font-size: 16px;
+            font-family: inherit;
+        }
+
+        .service-form-control:focus {
+            outline: none;
+            border-color: #212529;
+            box-shadow: 0 0 0 .15rem rgba(33, 37, 41, .12);
+        }
+
+        .service-form-error {
+            display: block;
+            color: #dc3545;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
+        .service-form-buttons {
+            display: flex;
+            gap: 8px;
+        }
+
+        .service-form-buttons .save-btn,
+        .service-form-buttons .back-btn {
+            min-width: 120px;
+            min-height: 48px;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-size: 16px;
+            font-family: inherit;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            box-sizing: border-box;
+        }
+
+        .service-form-buttons .save-btn {
+            border: 1px solid #212529;
+            background: #212529;
+            color: #fff;
+        }
+
+        .service-form-buttons .save-btn:hover {
+            background: #000;
+            border-color: #000;
+        }
+
+        .service-form-buttons .back-btn {
+            border: 1px solid #6c757d;
+            background: #6c757d;
+            color: #fff;
+        }
+
+        .service-form-buttons .back-btn:hover {
+            background: #5c636a;
+            border-color: #5c636a;
+        }
+
+        .form-error-summary {
+            background: #fff0f0;
+            color: #b42318;
+            border: 1px solid #f3b5b5;
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 576px) {
+
+            .service-form-page {
+                margin-top: 20px;
+                padding-left: 12px;
+                padding-right: 12px;
+            }
+
+            .service-form-header {
+                margin-bottom: 25px;
+            }
+
+            .service-form-header h1 {
+                font-size: 28px;
+            }
+
+            .service-form-header h3 {
+                font-size: 21px;
+            }
+
+            .service-form-header p {
+                font-size: 14px;
+            }
+
+            .service-form-card-body {
+                padding: 20px;
+            }
+
+            .service-form-buttons {
+                flex-direction: column;
+            }
+
+            .service-form-buttons .save-btn,
+            .service-form-buttons .back-btn {
+                width: 100%;
+                min-width: 0;
+                min-height: 46px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <%- include('../partials/navbar', { user: user }) %>
+
+    <div class="admin-dashboard">
+
+        <div class="service-form-page">
+
+            <div style="display:flex; justify-content:center;">
+
+                <div style="width:100%; max-width:540px;">
+
+                    <!-- Header -->
+
+                    <div class="text-center service-form-header">
+
+                        <h1>
+                            GROOM ROOM
+                        </h1>
+
+                        <h3>
+                            <%= service ? 'تعديل الخدمة' : 'إضافة خدمة' %>
+                        </h3>
+
+                        <p class="text-muted mb-0">
+
+                            <%= service
+                                ? 'تعديل بيانات الخدمة والقسم والسعر'
+                                : 'إضافة خدمة جديدة للنظام'
+                            %>
+
+                        </p>
+
+                    </div>
+
+
+                    <!-- Form Card -->
+
+                    <div class="service-form-card">
+
+                        <div class="service-form-card-body">
+
+                            <% if (error) { %>
+
+                                <div class="form-error-summary">
+                                    <%= error %>
+                                </div>
+
+                            <% } %>
+
+
+                            <form
+                                method="POST"
+                                action="<%= service
+                                    ? '/admin/services/edit/' + service.Id
+                                    : '/admin/services/create'
+                                %>"
+                            >
+
+                                <!-- Service Name -->
+
+                                <div class="service-form-group">
+
+                                    <label class="service-form-label">
+                                        اسم الخدمة
+                                    </label>
+
+                                    <input
+                                        type="text"
+                                        name="name"
+                                        class="service-form-control"
+                                        placeholder="<%= service ? 'اكتب اسم الخدمة' : 'مثال: شعر + دقن' %>"
+                                        value="<%= service ? service.Name : '' %>"
+                                    >
+
+                                </div>
+
+
+                                <!-- Category -->
+
+                                <div class="service-form-group">
+
+                                    <label class="service-form-label">
+                                        القسم
+                                    </label>
+
+                                    <select
+                                        name="category"
+                                        class="service-form-control"
+                                    >
+
+                                        <option
+                                            value="HairAndBeard"
+                                            <%= service && service.Category === 'HairAndBeard'
+                                                ? 'selected'
+                                                : ''
+                                            %>
+                                        >
+                                            الشعر والذقن
+                                        </option>
+
+                                        <option
+                                            value="SkinCare"
+                                            <%= service && service.Category === 'SkinCare'
+                                                ? 'selected'
+                                                : ''
+                                            %>
+                                        >
+                                            Skin Care
+                                        </option>
+
+                                        <option
+                                            value="Drinks"
+                                            <%= service && service.Category === 'Drinks'
+                                                ? 'selected'
+                                                : ''
+                                            %>
+                                        >
+                                            المشروبات
+                                        </option>
+
+                                        <option
+                                            value="Products"
+                                            <%= service && service.Category === 'Products'
+                                                ? 'selected'
+                                                : ''
+                                            %>
+                                        >
+                                            المنتجات
+                                        </option>
+
+                                    </select>
+
+                                </div>
+
+
+                                <!-- Price -->
+
+                                <div class="service-form-group last">
+
+                                    <label class="service-form-label">
+                                        السعر
+                                    </label>
+
+                                    <input
+                                        type="number"
+                                        name="price"
+                                        min="0"
+                                        step="0.01"
+                                        class="service-form-control"
+                                        placeholder="<%= service ? 'مثال: 150' : 'مثال: 220' %>"
+                                        value="<%= service ? service.Price : '' %>"
+                                    >
+
+                                </div>
+
+
+                                <!-- Buttons -->
+
+                                <div class="service-form-buttons">
+
+                                    <button
+                                        type="submit"
+                                        class="save-btn"
+                                    >
+                                        <%= service ? 'حفظ التعديلات' : 'حفظ الخدمة' %>
+                                    </button>
+
+                                    <a
+                                        href="/admin/services"
+                                        class="back-btn"
+                                    >
+                                        رجوع
+                                    </a>
+
+                                </div>
+
+                            </form>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <%- include('../partials/footer') %>
+
+</body>
+</html>

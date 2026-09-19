@@ -1,0 +1,30 @@
+{
+  "name": "groomroom-node",
+  "version": "1.0.0",
+  "description": "Groom Room Barber Shop Management System",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js"
+  },
+  "keywords": [
+    "groomroom",
+    "barbershop",
+    "nodejs",
+    "express",
+    "mysql"
+  ],
+  "author": "Groom Room",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^3.0.2",
+    "dotenv": "^17.2.2",
+    "ejs": "^3.1.10",
+    "express": "^5.1.0",
+    "express-session": "^1.18.2",
+    "mysql2": "^3.14.5"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  }
+}

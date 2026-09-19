@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>الخدمات - Groom Room</title>
+
+    <link rel="stylesheet" href="/css/admin.css">
+
+    <link rel="stylesheet" href="/css/professional.css">
+
+    <style>
+        .services-page {
+            margin-top: 24px;
+            margin-bottom: 40px;
+        }
+
+        .services-header {
+            margin-bottom: 24px;
+        }
+
+        .services-header h2 {
+            font-weight: 700;
+        }
+
+        .service-section {
+            background: #fff;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .section-header {
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .section-header h4 {
+            font-weight: 700;
+        }
+
+        .service-card {
+            border: 1px solid #eee;
+            border-radius: 10px;
+            background: #fff;
+            height: 100%;
+            box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .075);
+            transition: transform .15s ease, box-shadow .15s ease;
+        }
+
+        .service-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 .3rem .8rem rgba(0, 0, 0, .10);
+        }
+
+        .service-card-body {
+            padding: 24px;
+        }
+
+        .service-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .service-name {
+            margin: 0;
+            font-size: 18px;
+            font-weight: 700;
+            word-break: break-word;
+            line-height: 1.5;
+        }
+
+        .service-status {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            white-space: nowrap;
+            padding: 5px 10px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .service-status.active {
+            background: #198754;
+            color: #fff;
+        }
+
+        .service-status.inactive {
+            background: #6c757d;
+            color: #fff;
+        }
+
+        .service-price {
+            margin-bottom: 24px;
+        }
+
+        .service-price-label {
+            color: #6c757d;
+            margin-bottom: 4px;
+            font-size: 14px;
+        }
+
+        .service-price-value {
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .service-actions {
+            width: 100%;
+            display: flex;
+            gap: 8px;
+        }
+
+        .service-actions form {
+            margin: 0;
+            flex: 1;
+        }
+
+        .service-actions a,
+        .service-actions button {
+            min-height: 38px;
+        }
+
+        .service-actions .edit-btn {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            background: #212529;
+            border: 1px solid #212529;
+            color: #fff;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        .service-actions .edit-btn:hover {
+            background: #000;
+            border-color: #000;
+        }
+
+        .service-actions .toggle-btn {
+            width: 100%;
+            border-radius: 6px;
+            padding: 6px 12px;
+            background: transparent;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .toggle-btn.disable {
+            color: #dc3545;
+            border: 1px solid #dc3545;
+        }
+
+        .toggle-btn.disable:hover {
+            background: #dc3545;
+            color: #fff;
+        }
+
+        .toggle-btn.enable {
+            color: #198754;
+            border: 1px solid #198754;
+        }
+
+        .toggle-btn.enable:hover {
+            background: #198754;
+            color: #fff;
+        }
+
+        .empty-section {
+            text-align: center;
+            color: #6c757d;
+            padding: 30px 15px;
+            border: 1px dashed #dee2e6;
+            border-radius: 8px;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 16px;
+        }
+
+        @media (max-width: 991px) {
+            .services-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 576px) {
+
+            .services-page {
+                margin-top: 20px;
+                padding-left: 12px;
+                padding-right: 12px;
+            }
+
+            .services-header {
+                align-items: stretch;
+                gap: 15px;
+                flex-direction: column;
+            }
+
+            .services-header h2 {
+                font-size: 24px;
+            }
+
+            .services-header .primary-btn {
+                width: 100%;
+                text-align: center;
+                box-sizing: border-box;
+            }
+
+            .service-section {
+                padding: 15px;
+            }
+
+            .services-grid {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+
+            .service-card-body {
+                padding: 20px;
+            }
+
+            .service-name {
+                font-size: 18px;
+            }
+
+            .service-actions {
+                flex-direction: column;
+            }
+
+            .service-actions .edit-btn,
+            .service-actions form,
+            .service-actions .toggle-btn {
+                width: 100%;
+                min-height: 42px;
+                box-sizing: border-box;
+            }
+        }
+    </style>
+</head>
+
+<body class="professional-ui">
+
+    <%- include('../partials/navbar', { user: user }) %>
+
+    <div class="admin-dashboard">
+
+        <div class="services-page">
+
+            <!-- Header -->
+
+            <div class="services-header">
+
+                <div>
+                    <h2 class="mb-1">
+                        الخدمات والمنتجات
+                    </h2>
+
+                    <p class="text-muted mb-0">
+                        إدارة الخدمات والأسعار والمنتجات
+                    </p>
+                </div>
+
+                <div style="margin-top: 12px;">
+                    <a href="/admin/services/create"
+                       class="primary-btn">
+                        + إضافة
+                    </a>
+                </div>
+
+            </div>
+
+
+            <!-- Hair & Beard -->
+
+            <div class="service-section">
+
+                <div class="section-header">
+
+                    <h4 class="mb-1">
+                        ✂️ الشعر والذقن
+                    </h4>
+
+                    <p class="text-muted mb-0">
+                        خدمات الشعر والذقن
+                    </p>
+
+                </div>
+
+
+                <% if (hairAndBeard && hairAndBeard.length > 0) { %>
+
+                    <div class="services-grid">
+
+                        <% hairAndBeard.forEach(service => { %>
+
+                            <div class="service-card">
+
+                                <div class="service-card-body">
+
+                                    <div class="service-top">
+
+                                        <h5 class="service-name">
+                                            <%= service.Name %>
+                                        </h5>
+
+                                        <% if (service.IsActive) { %>
+
+                                            <span class="service-status active">
+                                                نشطة
+                                            </span>
+
+                                        <% } else { %>
+
+                                            <span class="service-status inactive">
+                                                غير نشطة
+                                            </span>
+
+                                        <% } %>
+
+                                    </div>
+
+
+                                    <div class="service-price">
+
+                                        <div class="service-price-label">
+                                            السعر
+                                        </div>
+
+                                        <div class="service-price-value">
+                                            <%= Number(service.Price).toLocaleString('en-US', {
+                                                minimumFractionDigits: 2,
+                                                maximumFractionDigits: 2
+                                            }) %>
+                                            جنيه
+                                        </div>
+
+                                    </div>
+
+
+                                    <div class="service-actions">
+
+                                        <a href="/admin/services/edit/<%= service.Id %>"
+                                           class="edit-btn">
+                                            تعديل
+                                        </a>
+
+
+                                        <form method="POST"
+                                              action="/admin/services/toggle/<%= service.Id %>">
+
+                                            <% if (service.IsActive) { %>
+
+                                                <button type="submit"
+                                                        class="toggle-btn disable">
+                                                    تعطيل
+                                                </button>
+
+                                            <% } else { %>
+
+                                                <button type="submit"
+                                                        class="toggle-btn enable">
+                                                    تفعيل
+                                                </button>
+
+                                            <% } %>
+
+                                        </form>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        <% }) %>
+
+                    </div>
+
+                <% } else { %>
+
+                    <div class="empty-section">
+                        لا توجد خدمات في هذا القسم.
+                    </div>
+
+                <% } %>
+
+            </div>
+
+
+            <!-- Skin Care -->
+
+            <div class="service-section">
+
+                <div class="section-header">
+
+                    <h4 class="mb-1">
+                        🧴 Skin Care
+                    </h4>
+
+                    <p class="text-muted mb-0">
+                        خدمات العناية بالبشرة
+                    </p>
+
+                </div>
+
+
+                <% if (skinCare && skinCare.length > 0) { %>
+
+                    <div class="services-grid">
+
+                        <% skinCare.forEach(service => { %>
+
+                            <div class="service-card">
+
+                                <div class="service-card-body">
+
+                                    <div class="service-top">
+
+                                        <h5 class="service-name">
+                                            <%= service.Name %>
+                                        </h5>
+
+                                        <% if (service.IsActive) { %>
+
+                                            <span class="service-status active">
+                                                نشطة
+                                            </span>
+
+                                        <% } else { %>
+
+                                            <span class="service-status inactive">
+                                                غير نشطة
+                                            </span>
+
+                                        <% } %>
+
+                                    </div>
+
+
+                                    <div class="service-price">
+
+                                        <div class="service-price-label">
+                                            السعر
+                                        </div>
+
+                                        <div class="service-price-value">
+                                            <%= Number(service.Price).toLocaleString('en-US', {
+                                                minimumFractionDigits: 2,
+                                                maximumFractionDigits: 2
+                                            }) %>
+                                            جنيه
+                                        </div>
+
+                                    </div>
+
+
+                                    <div class="service-actions">
+
+                                        <a href="/admin/services/edit/<%= service.Id %>"
+                                           class="edit-btn">
+                                            تعديل
+                                        </a>
+
+
+                                        <form method="POST"
+                                              action="/admin/services/toggle/<%= service.Id %>">
+
+                                            <% if (service.IsActive) { %>
+
+                                                <button type="submit"
+                                                        class="toggle-btn disable">
+                                                    تعطيل
+                                                </button>
+
+                                            <% } else { %>
+
+                                                <button type="submit"
+                                                        class="toggle-btn enable">
+                                                    تفعيل
+                                                </button>
+
+                                            <% } %>
+
+                                        </form>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        <% }) %>
+
+                    </div>
+
+                <% } else { %>
+
+                    <div class="empty-section">
+                        لا توجد خدمات في هذا القسم.
+                    </div>
+
+                <% } %>
+
+            </div>
+
+
+            <!-- Drinks -->
+
+            <div class="service-section">
+
+                <div class="section-header">
+
+                    <h4 class="mb-1">
+                        🥤 المشروبات
+                    </h4>
+
+                    <p class="text-muted mb-0">
+                        المشروبات المتاحة للبيع
+                    </p>
+
+                </div>
+
+
+                <% if (drinks && drinks.length > 0) { %>
+
+                    <div class="services-grid">
+
+                        <% drinks.forEach(service => { %>
+
+                            <div class="service-card">
+
+                                <div class="service-card-body">
+
+                                    <div class="service-top">
+
+                                        <h5 class="service-name">
+                                            <%= service.Name %>
+                                        </h5>
+
+                                        <% if (service.IsActive) { %>
+
+                                            <span class="service-status active">
+                                                نشطة
+                                            </span>
+
+                                        <% } else { %>
+
+                                            <span class="service-status inactive">
+                                                غير نشطة
+                                            </span>
+
+                                        <% } %>
+
+                                    </div>
+
+
+                                    <div class="service-price">
+
+                                        <div class="service-price-label">
+                                            السعر
+                                        </div>
+
+                                        <div class="service-price-value">
+                                            <%= Number(service.Price).toLocaleString('en-US', {
+                                                minimumFractionDigits: 2,
+                                                maximumFractionDigits: 2
+                                            }) %>
+                                            جنيه
+                                        </div>
+
+                                    </div>
+
+
+                                    <div class="service-actions">
+
+                                        <a href="/admin/services/edit/<%= service.Id %>"
+                                           class="edit-btn">
+                                            تعديل
+                                        </a>
+
+
+                                        <form method="POST"
+                                              action="/admin/services/toggle/<%= service.Id %>">
+
+                                            <% if (service.IsActive) { %>
+
+                                                <button type="submit"
+                                                        class="toggle-btn disable">
+                                                    تعطيل
+                                                </button>
+
+                                            <% } else { %>
+
+                                                <button type="submit"
+                                                        class="toggle-btn enable">
+                                                    تفعيل
+                                                </button>
+
+                                            <% } %>
+
+                                        </form>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        <% }) %>
+
+                    </div>
+
+                <% } else { %>
+
+                    <div class="empty-section">
+                        لا توجد مشروبات في هذا القسم.
+                    </div>
+
+                <% } %>
+
+            </div>
+
+
+            <!-- Products -->
+
+            <div class="service-section">
+
+                <div class="section-header">
+
+                    <h4 class="mb-1">
+                        🛍️ المنتجات
+                    </h4>
+
+                    <p class="text-muted mb-0">
+                        المنتجات المتاحة للبيع
+                    </p>
+
+                </div>
+
+
+                <% if (products && products.length > 0) { %>
+
+                    <div class="services-grid">
+
+                        <% products.forEach(service => { %>
+
+                            <div class="service-card">
+
+                                <div class="service-card-body">
+
+                                    <div class="service-top">
+
+                                        <h5 class="service-name">
+                                            <%= service.Name %>
+                                        </h5>
+
+                                        <% if (service.IsActive) { %>
+
+                                            <span class="service-status active">
+                                                نشطة
+                                            </span>
+
+                                        <% } else { %>
+
+                                            <span class="service-status inactive">
+                                                غير نشطة
+                                            </span>
+
+                                        <% } %>
+
+                                    </div>
+
+
+                                    <div class="service-price">
+
+                                        <div class="service-price-label">
+                                            السعر
+                                        </div>
+
+                                        <div class="service-price-value">
+                                            <%= Number(service.Price).toLocaleString('en-US', {
+                                                minimumFractionDigits: 2,
+                                                maximumFractionDigits: 2
+                                            }) %>
+                                            جنيه
+                                        </div>
+
+                                    </div>
+
+
+                                    <div class="service-actions">
+
+                                        <a href="/admin/services/edit/<%= service.Id %>"
+                                           class="edit-btn">
+                                            تعديل
+                                        </a>
+
+
+                                        <form method="POST"
+                                              action="/admin/services/toggle/<%= service.Id %>">
+
+                                            <% if (service.IsActive) { %>
+
+                                                <button type="submit"
+                                                        class="toggle-btn disable">
+                                                    تعطيل
+                                                </button>
+
+                                            <% } else { %>
+
+                                                <button type="submit"
+                                                        class="toggle-btn enable">
+                                                    تفعيل
+                                                </button>
+
+                                            <% } %>
+
+                                        </form>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        <% }) %>
+
+                    </div>
+
+                <% } else { %>
+
+                    <div class="empty-section">
+                        لا توجد منتجات في هذا القسم.
+                    </div>
+
+                <% } %>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <%- include('../partials/footer') %>
+
+</body>
+</html>

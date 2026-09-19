@@ -1,0 +1,1157 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Groom Room - التقارير
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="/css/admin.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="/css/professional.css"
+    >
+
+
+
+
+
+
+
+
+<style>
+/* =========================================================
+   GROOM ROOM - REPORTS THERMAL 80MM
+   Summary reports are independent: day/week/month/year.
+   ========================================================= */
+
+@media print {
+
+    @page {
+        size: 80mm auto;
+        margin: 0;
+    }
+
+    html,
+    body {
+        width: 80mm !important;
+        min-width: 80mm !important;
+        max-width: 80mm !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        background: #fff !important;
+    }
+
+    body {
+        font-family: Arial, "Segoe UI", Tahoma, sans-serif !important;
+        color: #111 !important;
+        font-size: 8px !important;
+    }
+
+    .gr-navbar,
+    .gr-footer,
+    #period-selection-section,
+    .reports-page .print-btn,
+    .reports-page .print-button,
+    .reports-page button,
+    .reports-page .no-print {
+        display: none !important;
+    }
+
+    .reports-page {
+        width: 80mm !important;
+        min-width: 80mm !important;
+        max-width: 80mm !important;
+        margin: 0 !important;
+        padding: 3mm !important;
+        box-sizing: border-box !important;
+    }
+
+    .reports-page .dashboard-header {
+        text-align: center !important;
+        margin: 0 !important;
+        padding: 0 0 2.5mm !important;
+        border-bottom: 1px dashed #111 !important;
+    }
+
+    .reports-page .dashboard-header h1 {
+        margin: 0 !important;
+        font-size: 16px !important;
+        line-height: 1.1 !important;
+        font-weight: 900 !important;
+    }
+
+    .reports-page .dashboard-header h3 {
+        margin: 1.5mm 0 0 !important;
+        font-size: 12px !important;
+        line-height: 1.2 !important;
+        font-weight: 900 !important;
+    }
+
+    .reports-page .dashboard-header p {
+        margin: 1mm 0 0 !important;
+        font-size: 7px !important;
+        color: #111 !important;
+    }
+
+    .reports-page .dashboard-card {
+        width: 100% !important;
+        box-sizing: border-box !important;
+        background: #fff !important;
+        border: 0 !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+        margin: 0 !important;
+        padding: 2mm 0 !important;
+    }
+
+    .reports-page .card-header {
+        padding: 0 0 1.5mm !important;
+        margin: 0 !important;
+        border-bottom: 1px dashed #111 !important;
+    }
+
+    .reports-page .card-header h2,
+    .reports-page .section-title h2 {
+        margin: 0 !important;
+        font-size: 10px !important;
+        font-weight: 900 !important;
+    }
+
+    /* Summary metrics = receipt rows */
+    #summary-report-section .quick-actions-grid {
+        display: block !important;
+        margin: 0 !important;
+    }
+
+    #summary-report-section .stat-card {
+        display: flex !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+        width: 100% !important;
+        min-height: 0 !important;
+        padding: 1.25mm 0 !important;
+        margin: 0 !important;
+        border: 0 !important;
+        border-bottom: 1px dotted #999 !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+        background: #fff !important;
+    }
+
+    #summary-report-section .stat-label,
+    #summary-report-section .stat-value {
+        margin: 0 !important;
+        padding: 0 !important;
+        font-size: 7px !important;
+        line-height: 1.2 !important;
+    }
+
+    #summary-report-section .stat-label {
+        font-weight: 700 !important;
+    }
+
+    #summary-report-section .stat-value {
+        font-weight: 900 !important;
+    }
+
+    /* Barber report / invoice report are hidden for period summaries */
+    body.report-print-summary #barber-report-section,
+    body.report-print-summary #invoice-report-section,
+    body.report-print-summary #report-header-section {
+        display: none !important;
+    }
+
+    /* If explicitly printing barber report */
+    body.report-print-barbers #summary-report-section,
+    body.report-print-barbers #invoice-report-section,
+    body.report-print-barbers #report-header-section {
+        display: none !important;
+    }
+
+    /* If explicitly printing invoice report */
+    body.report-print-invoices #summary-report-section,
+    body.report-print-invoices #barber-report-section,
+    body.report-print-invoices #report-header-section {
+        display: none !important;
+    }
+
+    .reports-page table {
+        width: 100% !important;
+        min-width: 0 !important;
+        max-width: 100% !important;
+        table-layout: fixed !important;
+        border-collapse: collapse !important;
+        font-size: 6.5px !important;
+    }
+
+    .reports-page th,
+    .reports-page td {
+        padding: 1mm 0.4mm !important;
+        font-size: 6.5px !important;
+        line-height: 1.2 !important;
+        white-space: normal !important;
+        overflow-wrap: anywhere !important;
+        word-break: break-word !important;
+        border-bottom: 1px dotted #999 !important;
+        text-align: center !important;
+    }
+
+    .reports-page th {
+        font-weight: 900 !important;
+        background: #fff !important;
+    }
+
+    .reports-page .table-wrapper {
+        width: 100% !important;
+        overflow: visible !important;
+    }
+
+    .reports-page::after {
+        content: "GROOM ROOM";
+        display: block;
+        text-align: center;
+        margin-top: 4mm;
+        padding-top: 2mm;
+        border-top: 1px dashed #111;
+        font-size: 7px;
+        font-weight: 800;
+    }
+}
+</style>
+
+</head>
+
+
+<body class="professional-ui">
+
+
+<%- include('../partials/navbar', { user }) %>
+
+
+<%
+    const reportPeriodTitle = {
+        day: 'اليوم',
+        week: 'الأسبوع',
+        month: 'الشهر',
+        year: 'السنة'
+    }[period] || 'الفترة';
+%>
+
+<div class="admin-dashboard reports-page">
+
+
+    <!-- HEADER -->
+
+    <header class="dashboard-header">
+
+        <div>
+
+            <h1>
+                GROOM ROOM
+            </h1>
+
+            <h3>
+                تقرير <%= reportPeriodTitle %>
+            </h3>
+
+            <p>
+                متابعة المبيعات والمصروفات وأداء الحلاقين
+            </p>
+
+        </div>
+
+    </header>
+
+
+    <!-- PERIOD BUTTONS -->
+
+    <section class="dashboard-card" id="period-selection-section">
+
+        <div class="card-header">
+
+            <div>
+
+                <h2>
+                    التقارير الزمنية
+                </h2>
+
+                <p>
+                    اختر الفترة المطلوبة
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div
+            class="quick-actions-grid"
+            style="
+                display:grid;
+                grid-template-columns:
+                    repeat(4, 1fr);
+                gap:12px;
+            "
+        >
+
+            <a
+                href="/admin/reports?period=day"
+                class="quick-action-card"
+            >
+                <span
+                    class="quick-action-icon"
+                >
+                    📅
+                </span>
+
+                <strong>
+                    تقرير اليوم
+                </strong>
+
+                <small>
+                    مبيعات اليوم
+                </small>
+            </a>
+
+
+            <a
+                href="/admin/reports?period=week"
+                class="quick-action-card"
+            >
+                <span
+                    class="quick-action-icon"
+                >
+                    📆
+                </span>
+
+                <strong>
+                    تقرير الأسبوع
+                </strong>
+
+                <small>
+                    مبيعات الأسبوع
+                </small>
+            </a>
+
+
+            <a
+                href="/admin/reports?period=month"
+                class="quick-action-card"
+            >
+                <span
+                    class="quick-action-icon"
+                >
+                    🗓️
+                </span>
+
+                <strong>
+                    تقرير الشهر
+                </strong>
+
+                <small>
+                    مبيعات الشهر
+                </small>
+            </a>
+
+
+            <a
+                href="/admin/reports?period=year"
+                class="quick-action-card"
+            >
+                <span
+                    class="quick-action-icon"
+                >
+                    📊
+                </span>
+
+                <strong>
+                    تقرير السنة
+                </strong>
+
+                <small>
+                    مبيعات السنة
+                </small>
+            </a>
+
+        </div>
+
+    </section>
+
+
+    <!-- CUSTOM PERIOD -->
+
+    <section class="dashboard-card">
+
+        <div class="card-header">
+
+            <div>
+
+                <h2>
+                    تقرير مخصص
+                </h2>
+
+                <p>
+                    اختر بداية ونهاية الفترة
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <form
+            method="GET"
+            action="/admin/reports"
+            style="
+                display:grid;
+                grid-template-columns:
+                    repeat(3, 1fr);
+                gap:16px;
+                align-items:end;
+            "
+        >
+
+            <input
+                type="hidden"
+                name="period"
+                value="custom"
+            >
+
+
+            <div>
+
+                <label>
+                    من تاريخ
+                </label>
+
+                <input
+                    type="date"
+                    name="dateFrom"
+                    value="<%= dateFrom %>"
+                    required
+                >
+
+            </div>
+
+
+            <div>
+
+                <label>
+                    إلى تاريخ
+                </label>
+
+                <input
+                    type="date"
+                    name="dateTo"
+                    value="<%= dateTo %>"
+                    required
+                >
+
+            </div>
+
+
+            <button
+                type="submit"
+                class="primary-btn"
+            >
+                عرض التقرير
+            </button>
+
+        </form>
+
+    </section>
+
+
+    <!-- REPORT HEADER -->
+
+    <section class="dashboard-card" id="report-header-section">
+
+        <div
+            style="
+                display:flex;
+                justify-content:
+                    space-between;
+                align-items:center;
+                gap:15px;
+                flex-wrap:wrap;
+            "
+        >
+
+            <div>
+
+                <h2>
+                    <%= title %>
+                </h2>
+
+                <p>
+                    من
+                    <strong>
+                        <%= dateFrom %>
+                    </strong>
+
+                    إلى
+
+                    <strong>
+                        <%= dateTo %>
+                    </strong>
+                </p>
+
+            </div>
+
+
+            <button
+                type="button"
+                class="primary-btn"
+                onclick="window.print()"
+            >
+                🖨️ طباعة التقرير
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- SUMMARY -->
+
+    <section class="dashboard-card" id="summary-report-section">
+
+        <div class="card-header">
+
+            <div>
+
+                <h2>
+                    ملخص التقرير
+                </h2>
+
+            </div>
+
+        </div>
+
+
+        <div
+            class="quick-actions-grid"
+            style="
+                display:grid;
+                grid-template-columns:
+                    repeat(3, 1fr);
+                gap:15px;
+            "
+        >
+
+            <div class="stat-card">
+
+                <span class="stat-label">
+                    إجمالي المبيعات
+                </span>
+
+                <strong class="stat-value">
+                    <%= Number(totalSales).toLocaleString('en-US', {
+                        minimumFractionDigits: 2
+                    }) %>
+                    جنيه
+                </strong>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <span class="stat-label">
+                    عدد الفواتير
+                </span>
+
+                <strong class="stat-value">
+                    <%= totalInvoices %>
+                </strong>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <span class="stat-label">
+                    صافي الدخل
+                </span>
+
+                <strong class="stat-value">
+                    <%= Number(netIncome).toLocaleString('en-US', {
+                        minimumFractionDigits: 2
+                    }) %>
+                    جنيه
+                </strong>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <span class="stat-label">
+                    كاش
+                </span>
+
+                <strong class="stat-value">
+                    <%= Number(cashSales).toLocaleString('en-US', {
+                        minimumFractionDigits: 2
+                    }) %>
+                    جنيه
+                </strong>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <span class="stat-label">
+                    فيزا
+                </span>
+
+                <strong class="stat-value">
+                    <%= Number(cardSales).toLocaleString('en-US', {
+                        minimumFractionDigits: 2
+                    }) %>
+                    جنيه
+                </strong>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <span class="stat-label">
+                    Wallet
+                </span>
+
+                <strong class="stat-value">
+                    <%= Number(walletSales).toLocaleString('en-US', {
+                        minimumFractionDigits: 2
+                    }) %>
+                    جنيه
+                </strong>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <span class="stat-label">
+                    البونصات
+                </span>
+
+                <strong class="stat-value">
+                    <%= Number(totalBonuses).toLocaleString('en-US', {
+                        minimumFractionDigits: 2
+                    }) %>
+                    جنيه
+                </strong>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <span class="stat-label">
+                    الجزاءات
+                </span>
+
+                <strong class="stat-value">
+                    <%= Number(totalPenalties).toLocaleString('en-US', {
+                        minimumFractionDigits: 2
+                    }) %>
+                    جنيه
+                </strong>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <span class="stat-label">
+                    السلف
+                </span>
+
+                <strong class="stat-value">
+                    <%= Number(totalAdvances).toLocaleString('en-US', {
+                        minimumFractionDigits: 2
+                    }) %>
+                    جنيه
+                </strong>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <span class="stat-label">
+                    المصروفات
+                </span>
+
+                <strong class="stat-value">
+                    <%= Number(totalExpenses).toLocaleString('en-US', {
+                        minimumFractionDigits: 2
+                    }) %>
+                    جنيه
+                </strong>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- BARBER REPORT -->
+
+    <section class="dashboard-card" id="barber-report-section">
+
+        <div class="card-header">
+
+            <div>
+
+                <div>
+                    <h2>
+                        👨‍💼 تقرير الحلاقين
+                    </h2>
+
+                    <p>
+                        مبيعات وأداء كل حلاق خلال الفترة
+                    </p>
+                </div>
+
+                <a
+                    href="/admin/reports?period=<%= period %>&dateFrom=<%= dateFrom %>&dateTo=<%= dateTo %>&report=barbers&print=1"
+                    target="_blank"
+                    class="primary-btn no-print"
+                    style="text-decoration:none;"
+                >
+                    🖨️ طباعة تقرير الحلاقين
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <div class="table-wrapper">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            الحلاق
+                        </th>
+
+                        <th>
+                            الفواتير
+                        </th>
+
+                        <th>
+                            إجمالي المبيعات
+                        </th>
+
+                        <th>
+                            كاش
+                        </th>
+
+                        <th>
+                            فيزا
+                        </th>
+
+                        <th>
+                            Wallet
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                    <% if (barberSales.length === 0) { %>
+
+                        <tr>
+
+                            <td
+                                colspan="6"
+                                style="
+                                    text-align:center;
+                                    padding:30px;
+                                "
+                            >
+                                لا توجد بيانات
+                            </td>
+
+                        </tr>
+
+                    <% } %>
+
+
+                    <% barberSales.forEach(barber => { %>
+
+                        <tr>
+
+                            <td>
+                                <strong>
+                                    <%= barber.BarberName %>
+                                </strong>
+                            </td>
+
+                            <td>
+                                <%= barber.InvoiceCount %>
+                            </td>
+
+                            <td>
+                                <%= Number(barber.TotalSales).toLocaleString('en-US', {
+                                    minimumFractionDigits: 2
+                                }) %>
+                                جنيه
+                            </td>
+
+                            <td>
+                                <%= Number(barber.CashSales).toLocaleString('en-US', {
+                                    minimumFractionDigits: 2
+                                }) %>
+                            </td>
+
+                            <td>
+                                <%= Number(barber.CardSales).toLocaleString('en-US', {
+                                    minimumFractionDigits: 2
+                                }) %>
+                            </td>
+
+                            <td>
+                                <%= Number(barber.WalletSales).toLocaleString('en-US', {
+                                    minimumFractionDigits: 2
+                                }) %>
+                            </td>
+
+                        </tr>
+
+                    <% }) %>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </section>
+
+
+    <!-- INVOICES REPORT -->
+
+    <section class="dashboard-card" id="invoice-report-section">
+
+        <div class="card-header">
+
+            <div>
+
+                <div>
+                    <h2>
+                        🧾 تقرير الفواتير
+                    </h2>
+
+                    <p>
+                        جميع الفواتير خلال الفترة المحددة
+                    </p>
+                </div>
+
+                <a
+                    href="/admin/reports?period=<%= period %>&dateFrom=<%= dateFrom %>&dateTo=<%= dateTo %>&report=invoices&print=1"
+                    target="_blank"
+                    class="primary-btn no-print"
+                    style="text-decoration:none;"
+                >
+                    🖨️ طباعة تقرير الفواتير
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <div class="table-wrapper">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            رقم الفاتورة
+                        </th>
+
+                        <th>
+                            التاريخ
+                        </th>
+
+                        <th>
+                            الحلاق
+                        </th>
+
+                        <th>
+                            الدفع
+                        </th>
+
+                        <th>
+                            الإجمالي
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                    <% if (invoices.length === 0) { %>
+
+                        <tr>
+
+                            <td
+                                colspan="5"
+                                style="
+                                    text-align:center;
+                                    padding:30px;
+                                "
+                            >
+                                لا توجد فواتير خلال الفترة
+                            </td>
+
+                        </tr>
+
+                    <% } %>
+
+
+                    <% invoices.forEach(invoice => { %>
+
+                        <tr>
+
+                            <td>
+
+                                <a
+                                    href="/admin/invoices/<%= invoice.Id %>"
+                                    style="
+                                        color:inherit;
+                                        font-weight:700;
+                                        text-decoration:none;
+                                    "
+                                >
+                                    <%= invoice.InvoiceNumber %>
+                                </a>
+
+                            </td>
+
+
+                            <td>
+
+                                <%= new Date(
+                                    invoice.CreatedAt
+                                ).toLocaleString('en-GB') %>
+
+                            </td>
+
+
+                            <td>
+                                <%= invoice.BarberName %>
+                            </td>
+
+
+                            <td>
+
+                                <% if (invoice.PaymentMethod === 'Cash') { %>
+                                    💵 كاش
+                                <% } else if (invoice.PaymentMethod === 'Card') { %>
+                                    💳 فيزا
+                                <% } else { %>
+                                    📱 Wallet
+                                <% } %>
+
+                            </td>
+
+
+                            <td>
+
+                                <strong>
+                                    <%= Number(invoice.TotalAmount).toLocaleString('en-US', {
+                                        minimumFractionDigits: 2
+                                    }) %>
+                                    جنيه
+                                </strong>
+
+                            </td>
+
+                        </tr>
+
+                    <% }) %>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </section>
+
+
+</div>
+
+
+<%- include('../partials/footer') %>
+
+
+<style>
+
+@media (max-width: 900px) {
+
+    .reports-page
+    .quick-actions-grid {
+
+        grid-template-columns:
+            repeat(2, 1fr) !important;
+
+    }
+
+    .reports-page form {
+
+        grid-template-columns:
+            1fr !important;
+
+    }
+
+}
+
+
+@media (max-width: 600px) {
+
+    .reports-page
+    .quick-actions-grid {
+
+        grid-template-columns:
+            1fr !important;
+
+    }
+
+}
+
+
+@media print {
+
+    .gr-navbar,
+    .gr-footer,
+    .quick-actions-grid,
+    .reports-page > section:nth-child(3) {
+
+        display: none !important;
+
+    }
+
+    .reports-page {
+
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    .dashboard-card {
+
+        box-shadow: none !important;
+        border: 1px solid #ddd !important;
+
+    }
+
+    body {
+
+        background: white !important;
+
+    }
+
+}
+
+</style>
+
+<style>
+.reports-page #barber-report-section .card-header > div,
+.reports-page #invoice-report-section .card-header > div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+@media (max-width: 600px) {
+    .reports-page #barber-report-section .card-header > div,
+    .reports-page #invoice-report-section .card-header > div {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .reports-page #barber-report-section .card-header .primary-btn,
+    .reports-page #invoice-report-section .card-header .primary-btn {
+        width: 100%;
+        text-align: center;
+        box-sizing: border-box;
+    }
+}
+</style>
+
+<script>
+(function () {
+
+    function prepareReportPrint() {
+
+        const params = new URLSearchParams(window.location.search);
+        const reportType = (params.get('report') || 'summary').toLowerCase();
+        const shouldPrint = params.get('print') === '1';
+
+        document.body.classList.remove(
+            'report-print-summary',
+            'report-print-barbers',
+            'report-print-invoices'
+        );
+
+        if (reportType === 'barbers') {
+            document.body.classList.add('report-print-barbers');
+        } else if (reportType === 'invoices') {
+            document.body.classList.add('report-print-invoices');
+        } else {
+            document.body.classList.add('report-print-summary');
+        }
+
+        if (shouldPrint) {
+            setTimeout(function () {
+                window.print();
+            }, 400);
+        }
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', prepareReportPrint);
+    } else {
+        prepareReportPrint();
+    }
+
+})();
+</script>
+
+</body>
+
+</html>

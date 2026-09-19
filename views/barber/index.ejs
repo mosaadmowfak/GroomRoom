@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Groom Room - لوحة الحلاق</title>
+
+    <link
+        rel="stylesheet"
+        href="/css/admin.css"
+    >
+</head>
+
+<body>
+
+<div class="admin-dashboard">
+
+    <header class="dashboard-header">
+
+        <div>
+            <h1>GROOM ROOM</h1>
+
+            <h3>
+                لوحة الحلاق
+            </h3>
+
+            <p>
+                أهلاً بك، سجل عملية الحلاقة من هنا
+            </p>
+        </div>
+
+        <form method="POST" action="/logout">
+            <button
+                type="submit"
+                class="logout-btn"
+            >
+                تسجيل الخروج
+            </button>
+        </form>
+
+    </header>
+
+    <section class="dashboard-card barber-menu-card">
+
+        <a
+            href="/barber/new-haircut"
+            class="barber-action"
+        >
+            <div class="barber-action-icon">
+                💈
+            </div>
+
+            <div class="barber-action-title">
+                حلاقة جديدة
+            </div>
+
+            <div class="barber-action-description">
+                تسجيل حلاقة وإصدار فاتورة
+            </div>
+        </a>
+
+    </section>
+
+</div>
+
+</body>
+
+</html>

@@ -1,0 +1,174 @@
+<header>
+    <nav class="gr-navbar">
+
+        <div class="gr-navbar-container">
+
+            <a href="/" class="gr-navbar-brand" aria-label="Groom Room">
+                <img
+                    src="/images/groom-room-logo.jpeg"
+                    alt="GROOM ROOM"
+                    class="groom-room-logo"
+                >
+            </a>
+
+            <button
+                type="button"
+                class="gr-navbar-toggler"
+                id="grNavbarToggler"
+                aria-label="فتح القائمة"
+                aria-expanded="false"
+            >
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+            <div
+                class="gr-navbar-collapse"
+                id="mainNavbar"
+            >
+
+                <ul class="gr-navbar-nav">
+
+                    <% if (user && user.role === 'Admin') { %>
+
+                        <li class="gr-nav-item">
+                            <a href="/admin" class="gr-nav-link">
+                                لوحة التحكم
+                            </a>
+                        </li>
+
+                        <li class="gr-nav-item">
+                            <a href="/admin/business-day" class="gr-nav-link">
+                                يوم العمل
+                            </a>
+                        </li>
+
+                        <li class="gr-nav-item">
+                            <a href="/admin/barbers" class="gr-nav-link">
+                                الحلاقين
+                            </a>
+                        </li>
+
+                        <li class="gr-nav-item">
+                            <a href="/admin/services" class="gr-nav-link">
+                                الخدمات
+                            </a>
+                        </li>
+
+                        <li class="gr-nav-item">
+                            <a href="/admin/invoices" class="gr-nav-link">
+                                الفواتير
+                            </a>
+                        </li>
+
+                        <li class="gr-nav-item">
+                            <a href="/admin/payroll" class="gr-nav-link">
+                                المرتبات
+                            </a>
+                        </li>
+
+                        <li class="gr-nav-item">
+                            <a href="/admin/reports" class="gr-nav-link">
+                                التقارير
+                            </a>
+                        </li>
+
+                    <% } %>
+
+                    <% if (
+                        user &&
+                        (
+                            user.role === 'Admin' ||
+                            user.role === 'Barber'
+                        )
+                    ) { %>
+
+                        <li class="gr-nav-item">
+                            <a
+                                href="/barber/new-haircut"
+                                class="gr-nav-link gr-nav-link-bold"
+                            >
+                                حلاقة جديدة
+                            </a>
+                        </li>
+
+                    <% } %>
+
+                </ul>
+
+                <div class="gr-navbar-account">
+
+                    <% if (user) { %>
+
+                        <form
+                            method="POST"
+                            action="/logout"
+                            class="gr-logout-form"
+                        >
+                            <button
+                                type="submit"
+                                class="gr-logout-button"
+                            >
+                                تسجيل الخروج
+                            </button>
+                        </form>
+
+                    <% } else { %>
+
+                        <a
+                            href="/login"
+                            class="gr-login-button"
+                        >
+                            دخول الإدارة
+                        </a>
+
+                    <% } %>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </nav>
+</header>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+    const toggler = document.getElementById('grNavbarToggler');
+    const navbar = document.getElementById('mainNavbar');
+
+    if (!toggler || !navbar) {
+        return;
+    }
+
+    toggler.addEventListener('click', function () {
+
+        const isOpen = navbar.classList.toggle('show');
+
+        toggler.setAttribute(
+            'aria-expanded',
+            isOpen ? 'true' : 'false'
+        );
+
+    });
+
+    navbar.querySelectorAll('.gr-nav-link').forEach(function (link) {
+
+        link.addEventListener('click', function () {
+
+            navbar.classList.remove('show');
+
+            toggler.setAttribute(
+                'aria-expanded',
+                'false'
+            );
+
+        });
+
+    });
+
+});
+</script>

@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>المصروفات - GROOM ROOM</title>
+
+    <link
+        rel="stylesheet"
+        href="/css/admin.css"
+    >
+
+    <link rel="stylesheet" href="/css/professional.css">
+
+    <style>
+
+        .expenses-page {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px 50px;
+        }
+
+        .expenses-header {
+            text-align: center;
+            margin-bottom: 45px;
+        }
+
+        .expenses-header h1 {
+            font-size: 38px;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+
+        .expenses-header h2 {
+            margin-bottom: 8px;
+        }
+
+        .expenses-header p {
+            color: #777;
+            margin: 0;
+        }
+
+        .expense-card {
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,.08);
+            margin-bottom: 25px;
+        }
+
+        .expense-card-body {
+            padding: 25px;
+        }
+
+        .expense-card h3 {
+            margin-top: 0;
+            margin-bottom: 22px;
+        }
+
+        .expense-form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 18px;
+        }
+
+        .expense-field {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .expense-field label {
+            font-weight: 600;
+        }
+
+        .expense-field input {
+            width: 100%;
+            box-sizing: border-box;
+            min-height: 44px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            padding: 10px 12px;
+            font-size: 15px;
+        }
+
+        .expense-form-actions {
+            margin-top: 20px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .expense-btn {
+            border: none;
+            border-radius: 6px;
+            padding: 11px 24px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 600;
+        }
+
+        .expense-btn-dark {
+            background: #212529;
+            color: #fff;
+        }
+
+        .expense-btn-secondary {
+            background: #6c757d;
+            color: #fff;
+        }
+
+        .expense-summary {
+            text-align: center;
+        }
+
+        .expense-summary-label {
+            color: #777;
+            margin-bottom: 8px;
+        }
+
+        .expense-summary-value {
+            font-size: 30px;
+            font-weight: 800;
+        }
+
+        .expense-table-wrapper {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        .expense-table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 650px;
+        }
+
+        .expense-table th,
+        .expense-table td {
+            padding: 14px 12px;
+            border-bottom: 1px solid #ddd;
+            text-align: right;
+        }
+
+        .expense-table th {
+            font-weight: 700;
+            background: #f8f8f8;
+        }
+
+        .expense-amount {
+            font-weight: 700;
+        }
+
+        .expense-empty {
+            text-align: center;
+            padding: 45px 20px;
+            color: #777;
+        }
+
+
+        @media (max-width: 768px) {
+
+            .expenses-page {
+                margin-top: 25px;
+                padding: 0 12px 35px;
+            }
+
+            .expenses-header {
+                margin-bottom: 30px;
+            }
+
+            .expenses-header h1 {
+                font-size: 30px;
+            }
+
+            .expenses-header h2 {
+                font-size: 22px;
+            }
+
+            .expense-card-body {
+                padding: 20px;
+            }
+
+            .expense-form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .expense-form-actions {
+                flex-direction: column;
+            }
+
+            .expense-btn {
+                width: 100%;
+                min-height: 44px;
+            }
+
+        }
+
+
+        @media print {
+
+            nav,
+            footer,
+            .no-print {
+                display: none !important;
+            }
+
+            .expenses-page {
+                margin: 0;
+                max-width: none;
+                padding: 10px;
+            }
+
+            .expense-card {
+                box-shadow: none;
+                border: none;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body class="professional-ui">
+
+<%- include('../partials/navbar', { user }) %>
+
+
+<main class="expenses-page">
+
+
+    <header class="expenses-header">
+
+        <h1>
+            GROOM ROOM
+        </h1>
+
+        <h2>
+            المصروفات
+        </h2>
+
+        <p>
+            إدارة ومتابعة مصروفات الفرع
+        </p>
+
+    </header>
+
+
+    <!-- FILTER -->
+
+    <section class="expense-card no-print">
+
+        <div class="expense-card-body">
+
+            <h3>
+                البحث في المصروفات
+            </h3>
+
+
+            <form
+                method="GET"
+                action="/admin/expenses"
+            >
+
+                <div class="expense-form-grid">
+
+
+                    <div class="expense-field">
+
+                        <label>
+                            من تاريخ
+                        </label>
+
+                        <input
+                            type="date"
+                            name="dateFrom"
+                            value="<%= dateFrom %>"
+                        >
+
+                    </div>
+
+
+                    <div class="expense-field">
+
+                        <label>
+                            إلى تاريخ
+                        </label>
+
+                        <input
+                            type="date"
+                            name="dateTo"
+                            value="<%= dateTo %>"
+                        >
+
+                    </div>
+
+
+                    <div class="expense-field">
+
+                        <label>
+                            &nbsp;
+                        </label>
+
+                        <button
+                            type="submit"
+                            class="expense-btn expense-btn-dark"
+                        >
+                            بحث
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <div class="expense-form-actions">
+
+                    <a
+                        href="/admin/expenses"
+                        class="expense-btn expense-btn-secondary"
+                    >
+                        إعادة ضبط
+                    </a>
+
+                    <button
+                        type="button"
+                        onclick="window.print()"
+                        class="expense-btn"
+                        style="background:#fff;border:1px solid #222;"
+                    >
+                        🖨️ طباعة
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </section>
+
+
+    <!-- ADD EXPENSE -->
+
+    <section class="expense-card no-print">
+
+        <div class="expense-card-body">
+
+            <h3>
+                إضافة مصروف
+            </h3>
+
+
+            <form
+                method="POST"
+                action="/admin/expenses/add"
+            >
+
+                <div class="expense-form-grid">
+
+
+                    <div class="expense-field">
+
+                        <label>
+                            المبلغ
+                        </label>
+
+                        <input
+                            type="number"
+                            name="amount"
+                            min="0.01"
+                            step="0.01"
+                            placeholder="مثال: 500"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="expense-field">
+
+                        <label>
+                            السبب
+                        </label>
+
+                        <input
+                            type="text"
+                            name="reason"
+                            placeholder="مثال: أدوات نظافة"
+                        >
+
+                    </div>
+
+
+                    <div class="expense-field">
+
+                        <label>
+                            التاريخ
+                        </label>
+
+                        <input
+                            type="date"
+                            name="date"
+                            value="<%= new Date().toISOString().split('T')[0] %>"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <div class="expense-form-actions">
+
+                    <button
+                        type="submit"
+                        class="expense-btn expense-btn-dark"
+                    >
+                        إضافة المصروف
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </section>
+
+
+    <!-- SUMMARY -->
+
+    <section class="expense-card">
+
+        <div class="expense-card-body expense-summary">
+
+            <div class="expense-summary-label">
+                إجمالي المصروفات
+            </div>
+
+            <div class="expense-summary-value">
+                <%= Number(totalExpenses).toLocaleString('en-US', {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                }) %>
+                جنيه
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- LIST -->
+
+    <section class="expense-card">
+
+        <div class="expense-card-body">
+
+            <div
+                style="
+                    display:flex;
+                    justify-content:space-between;
+                    align-items:center;
+                    margin-bottom:20px;
+                    gap:15px;
+                "
+            >
+
+                <div>
+
+                    <h3 style="margin-bottom:5px;">
+                        قائمة المصروفات
+                    </h3>
+
+                    <div style="color:#777;">
+                        جميع المصروفات المسجلة
+                    </div>
+
+                </div>
+
+                <strong>
+                    <%= expenses.length %> مصروف
+                </strong>
+
+            </div>
+
+
+            <% if (expenses.length > 0) { %>
+
+                <div class="expense-table-wrapper">
+
+                    <table class="expense-table">
+
+                        <thead>
+
+                            <tr>
+
+                                <th>
+                                    التاريخ
+                                </th>
+
+                                <th>
+                                    السبب
+                                </th>
+
+                                <th>
+                                    المبلغ
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody>
+
+                            <% expenses.forEach(expense => { %>
+
+                                <tr>
+
+                                    <td>
+                                        <%= new Date(expense.Date)
+                                            .toLocaleDateString('en-GB') %>
+                                    </td>
+
+                                    <td>
+                                        <%= expense.Reason || '-' %>
+                                    </td>
+
+                                    <td class="expense-amount">
+                                        <%= Number(expense.Amount)
+                                            .toLocaleString('en-US', {
+                                                minimumFractionDigits: 2,
+                                                maximumFractionDigits: 2
+                                            }) %>
+                                        جنيه
+                                    </td>
+
+                                </tr>
+
+                            <% }); %>
+
+                        </tbody>
+
+
+                        <tfoot>
+
+                            <tr>
+
+                                <td colspan="2">
+                                    <strong>
+                                        الإجمالي
+                                    </strong>
+                                </td>
+
+                                <td class="expense-amount">
+                                    <strong>
+                                        <%= Number(totalExpenses)
+                                            .toLocaleString('en-US', {
+                                                minimumFractionDigits: 2,
+                                                maximumFractionDigits: 2
+                                            }) %>
+                                        جنيه
+                                    </strong>
+                                </td>
+
+                            </tr>
+
+                        </tfoot>
+
+                    </table>
+
+                </div>
+
+            <% } else { %>
+
+                <div class="expense-empty">
+                    لا توجد مصروفات في الفترة المحددة.
+                </div>
+
+            <% } %>
+
+
+        </div>
+
+    </section>
+
+
+</main>
+
+
+<%- include('../partials/footer') %>
+
+
+</body>
+
+</html>

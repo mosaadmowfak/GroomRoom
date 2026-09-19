@@ -1,0 +1,959 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Groom Room - حلاقة جديدة</title>
+
+    <link
+        rel="stylesheet"
+        href="/css/admin.css"
+    >
+
+    <link rel="stylesheet" href="/css/professional.css">
+
+</head>
+
+<body class="professional-ui">
+
+<div class="admin-dashboard">
+
+    <div class="new-haircut-page">
+
+        <!-- Header -->
+
+        <div class="text-center new-haircut-header">
+
+            <h1>
+                GROOM ROOM
+            </h1>
+
+            <h3>
+                حلاقة جديدة
+            </h3>
+
+            <p>
+                تسجيل عملية جديدة
+            </p>
+
+            <a
+                href="/login"
+                class="admin-login-button"
+            >
+                🔐 دخول الإدارة
+            </a>
+
+        </div>
+
+
+        <!-- Validation -->
+
+        <% if (errors && errors.length > 0) { %>
+
+            <div class="validation-summary">
+
+                <% errors.forEach(error => { %>
+
+                    <div>
+                        <%= error %>
+                    </div>
+
+                <% }) %>
+
+            </div>
+
+        <% } %>
+
+
+        <form
+            method="POST"
+            action="/barber/new-haircut"
+            id="haircutForm"
+        >
+
+            <!-- Barber -->
+
+            <div class="dashboard-card haircut-card">
+
+                <div class="haircut-card-body">
+
+                    <h5>
+                        اسم الحلاق
+                    </h5>
+
+                    <select
+                        name="BarberId"
+                        id="BarberId"
+                        class="barber-select"
+                        required
+                    >
+
+                        <option value="">
+                            اختر اسم الحلاق
+                        </option>
+
+                        <% barbers.forEach(barber => { %>
+
+                            <option
+                                value="<%= barber.Id %>"
+                                <%= Number(model.BarberId) === Number(barber.Id) ? 'selected' : '' %>
+                            >
+                                <%= barber.Name %>
+                            </option>
+
+                        <% }) %>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+
+            <!-- Services -->
+
+            <div class="dashboard-card haircut-card">
+
+                <div class="haircut-card-body">
+
+                    <h5>
+                        اختر الخدمات
+                    </h5>
+
+
+                    <!-- Hair & Beard -->
+
+                    <div class="service-section">
+
+                        <h6 class="service-section-title">
+                            ✂️ الشعر والذقن
+                        </h6>
+
+                        <%
+                            const hairAndBeard = services.filter(
+                                service => service.Category === 'HairAndBeard'
+                            );
+                        %>
+
+                        <% if (hairAndBeard.length > 0) { %>
+
+                            <div class="services-grid">
+
+                                <% hairAndBeard.forEach(service => { %>
+
+                                    <div>
+
+                                        <input
+                                            type="checkbox"
+                                            class="service-option"
+                                            name="ServiceIds"
+                                            id="service-<%= service.Id %>"
+                                            value="<%= service.Id %>"
+                                            data-price="<%= service.Price %>"
+                                            <%= model.ServiceIds.includes(Number(service.Id)) ? 'checked' : '' %>
+                                        >
+
+                                        <label
+                                            for="service-<%= service.Id %>"
+                                            class="service-option-label"
+                                        >
+
+                                            <div class="service-name">
+                                                <%= service.Name %>
+                                            </div>
+
+                                            <div class="service-price">
+                                                <%= Number(service.Price).toFixed(2) %> جنيه
+                                            </div>
+
+                                        </label>
+
+                                    </div>
+
+                                <% }) %>
+
+                            </div>
+
+                        <% } else { %>
+
+                            <div class="muted">
+                                لا توجد خدمات.
+                            </div>
+
+                        <% } %>
+
+                    </div>
+
+
+                    <!-- Skin Care -->
+
+                    <div class="service-section">
+
+                        <h6 class="service-section-title">
+                            🧴 Skin Care
+                        </h6>
+
+                        <%
+                            const skinCare = services.filter(
+                                service => service.Category === 'SkinCare'
+                            );
+                        %>
+
+                        <% if (skinCare.length > 0) { %>
+
+                            <div class="services-grid">
+
+                                <% skinCare.forEach(service => { %>
+
+                                    <div>
+
+                                        <input
+                                            type="checkbox"
+                                            class="service-option"
+                                            name="ServiceIds"
+                                            id="service-<%= service.Id %>"
+                                            value="<%= service.Id %>"
+                                            data-price="<%= service.Price %>"
+                                            <%= model.ServiceIds.includes(Number(service.Id)) ? 'checked' : '' %>
+                                        >
+
+                                        <label
+                                            for="service-<%= service.Id %>"
+                                            class="service-option-label"
+                                        >
+
+                                            <div class="service-name">
+                                                <%= service.Name %>
+                                            </div>
+
+                                            <div class="service-price">
+                                                <%= Number(service.Price).toFixed(2) %> جنيه
+                                            </div>
+
+                                        </label>
+
+                                    </div>
+
+                                <% }) %>
+
+                            </div>
+
+                        <% } else { %>
+
+                            <div class="muted">
+                                لا توجد خدمات.
+                            </div>
+
+                        <% } %>
+
+                    </div>
+
+
+                    <!-- Drinks -->
+
+                    <div class="service-section">
+
+                        <h6 class="service-section-title">
+                            🥤 المشروبات
+                        </h6>
+
+                        <%
+                            const drinks = services.filter(
+                                service => service.Category === 'Drinks'
+                            );
+                        %>
+
+                        <% if (drinks.length > 0) { %>
+
+                            <div class="services-grid">
+
+                                <% drinks.forEach(service => { %>
+
+                                    <div>
+
+                                        <input
+                                            type="checkbox"
+                                            class="service-option"
+                                            name="ServiceIds"
+                                            id="service-<%= service.Id %>"
+                                            value="<%= service.Id %>"
+                                            data-price="<%= service.Price %>"
+                                            <%= model.ServiceIds.includes(Number(service.Id)) ? 'checked' : '' %>
+                                        >
+
+                                        <label
+                                            for="service-<%= service.Id %>"
+                                            class="service-option-label"
+                                        >
+
+                                            <div class="service-name">
+                                                <%= service.Name %>
+                                            </div>
+
+                                            <div class="service-price">
+                                                <%= Number(service.Price).toFixed(2) %> جنيه
+                                            </div>
+
+                                        </label>
+
+                                    </div>
+
+                                <% }) %>
+
+                            </div>
+
+                        <% } else { %>
+
+                            <div class="muted">
+                                لا توجد مشروبات.
+                            </div>
+
+                        <% } %>
+
+                    </div>
+
+
+                    <!-- Products -->
+
+                    <div class="service-section last">
+
+                        <h6 class="service-section-title">
+                            🛍️ المنتجات
+                        </h6>
+
+                        <%
+                            const products = services.filter(
+                                service => service.Category === 'Products'
+                            );
+                        %>
+
+                        <% if (products.length > 0) { %>
+
+                            <div class="services-grid">
+
+                                <% products.forEach(service => { %>
+
+                                    <div>
+
+                                        <input
+                                            type="checkbox"
+                                            class="service-option"
+                                            name="ServiceIds"
+                                            id="service-<%= service.Id %>"
+                                            value="<%= service.Id %>"
+                                            data-price="<%= service.Price %>"
+                                            <%= model.ServiceIds.includes(Number(service.Id)) ? 'checked' : '' %>
+                                        >
+
+                                        <label
+                                            for="service-<%= service.Id %>"
+                                            class="service-option-label"
+                                        >
+
+                                            <div class="service-name">
+                                                <%= service.Name %>
+                                            </div>
+
+                                            <div class="service-price">
+                                                <%= Number(service.Price).toFixed(2) %> جنيه
+                                            </div>
+
+                                        </label>
+
+                                    </div>
+
+                                <% }) %>
+
+                            </div>
+
+                        <% } else { %>
+
+                            <div class="muted">
+                                لا توجد منتجات.
+                            </div>
+
+                        <% } %>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Payment -->
+
+            <div class="dashboard-card haircut-card">
+
+                <div class="haircut-card-body">
+
+                    <h5>
+                        طريقة الدفع
+                    </h5>
+
+                    <div class="payment-grid">
+
+                        <div>
+
+                            <input
+                                type="radio"
+                                name="PaymentMethod"
+                                id="cash"
+                                value="Cash"
+                                <%= !model.PaymentMethod || model.PaymentMethod === 'Cash' ? 'checked' : '' %>
+                            >
+
+                            <label
+                                for="cash"
+                                class="payment-option"
+                            >
+                                💵 كاش
+                            </label>
+
+                        </div>
+
+
+                        <div>
+
+                            <input
+                                type="radio"
+                                name="PaymentMethod"
+                                id="card"
+                                value="Card"
+                                <%= model.PaymentMethod === 'Card' ? 'checked' : '' %>
+                            >
+
+                            <label
+                                for="card"
+                                class="payment-option"
+                            >
+                                💳 فيزا
+                            </label>
+
+                        </div>
+
+
+                        <div>
+
+                            <input
+                                type="radio"
+                                name="PaymentMethod"
+                                id="wallet"
+                                value="Wallet"
+                                <%= model.PaymentMethod === 'Wallet' ? 'checked' : '' %>
+                            >
+
+                            <label
+                                for="wallet"
+                                class="payment-option"
+                            >
+                                📱 Wallet
+                            </label>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Total -->
+
+            <div class="dashboard-card haircut-card">
+
+                <div class="total-card-body">
+
+                    <div class="muted">
+                        الإجمالي
+                    </div>
+
+                    <div
+                        id="totalPrice"
+                        class="total-price"
+                    >
+                        0.00 جنيه
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Submit -->
+
+            <button
+                type="submit"
+                class="confirm-button"
+            >
+                ✓ تأكيد العملية
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<script>
+
+    function updateTotal() {
+
+        let total = 0;
+
+        document
+            .querySelectorAll('.service-option:checked')
+            .forEach(function (selected) {
+
+                total += parseFloat(
+                    selected.getAttribute('data-price')
+                ) || 0;
+
+            });
+
+        document.getElementById('totalPrice').innerText =
+            total.toFixed(2) + ' جنيه';
+    }
+
+
+    document
+        .querySelectorAll('.service-option')
+        .forEach(function (option) {
+
+            option.addEventListener(
+                'change',
+                updateTotal
+            );
+
+        });
+
+
+    updateTotal();
+
+
+    document
+        .getElementById('haircutForm')
+        .addEventListener('submit', function (event) {
+
+            const barber =
+                document.getElementById('BarberId').value;
+
+            const services =
+                document.querySelectorAll(
+                    '.service-option:checked'
+                );
+
+            if (!barber) {
+
+                event.preventDefault();
+
+                alert('برجاء اختيار اسم الحلاق.');
+
+                return;
+            }
+
+            if (services.length === 0) {
+
+                event.preventDefault();
+
+                alert('برجاء اختيار خدمة واحدة على الأقل.');
+
+                return;
+            }
+
+        });
+
+</script>
+
+
+<style>
+
+    .new-haircut-page {
+        max-width: 1100px;
+        margin: 0 auto;
+    }
+
+
+    .new-haircut-header {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+
+    .new-haircut-header h1 {
+        margin: 0;
+        font-size: 36px;
+        font-weight: 800;
+    }
+
+
+    .new-haircut-header h3 {
+        margin: 8px 0 0;
+        font-size: 25px;
+    }
+
+
+    .new-haircut-header p {
+        margin: 10px 0 0;
+        color: #777;
+    }
+
+
+    .admin-login-button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 16px;
+        min-height: 42px;
+        padding: 9px 18px;
+        border: 1px solid #222;
+        border-radius: 8px;
+        background: #222;
+        color: #fff;
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 700;
+        transition: 0.15s ease;
+    }
+
+
+    .admin-login-button:hover {
+        background: #000;
+        color: #fff;
+        transform: translateY(-1px);
+    }
+
+
+    .validation-summary {
+        margin-bottom: 20px;
+        padding: 15px 18px;
+        border-radius: 8px;
+        background: #fff0f0;
+        border: 1px solid #f0b8b8;
+        color: #b02a37;
+        font-weight: 700;
+    }
+
+
+    .validation-summary div + div {
+        margin-top: 7px;
+    }
+
+
+    .haircut-card {
+        margin-bottom: 20px;
+        border-radius: 10px;
+    }
+
+
+    .haircut-card-body {
+        padding: 25px;
+    }
+
+
+    .haircut-card-body h5 {
+        margin: 0 0 20px;
+        font-size: 20px;
+    }
+
+
+    .barber-select {
+        width: 100%;
+        min-height: 50px;
+        padding: 10px 14px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        background: #fff;
+        color: #222;
+        font-size: 16px;
+        cursor: pointer;
+    }
+
+
+    .barber-select:focus {
+        outline: none;
+        border-color: #333;
+    }
+
+
+    .service-section {
+        padding-bottom: 25px;
+        margin-bottom: 25px;
+        border-bottom: 1px solid #dee2e6;
+    }
+
+
+    .service-section.last {
+        padding-bottom: 0;
+        margin-bottom: 0;
+        border-bottom: 0;
+    }
+
+
+    .service-section-title {
+        margin: 0 0 15px;
+        font-size: 18px;
+        font-weight: 700;
+    }
+
+
+    .services-grid {
+        display: grid;
+        grid-template-columns:
+            repeat(3, minmax(0, 1fr));
+        gap: 12px;
+    }
+
+
+    .service-option,
+    .payment-grid input {
+        position: absolute;
+        opacity: 0;
+        pointer-events: none;
+    }
+
+
+    .service-option-label {
+        min-height: 105px;
+        padding: 15px;
+        border: 1px solid #333;
+        border-radius: 8px;
+        background: #fff;
+        color: #222;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        cursor: pointer;
+        transition: 0.15s ease;
+    }
+
+
+    .service-option-label:hover {
+        background: #f5f5f5;
+    }
+
+
+    .service-option:checked + .service-option-label {
+        background: #222;
+        color: #fff;
+    }
+
+
+    .service-name {
+        font-weight: 700;
+        word-break: break-word;
+    }
+
+
+    .service-price {
+        margin-top: 8px;
+        white-space: nowrap;
+        font-size: 14px;
+    }
+
+
+    .payment-grid {
+        display: grid;
+        grid-template-columns:
+            repeat(3, minmax(0, 1fr));
+        gap: 12px;
+    }
+
+
+    .payment-option {
+        min-height: 58px;
+        padding: 12px;
+        border: 1px solid #333;
+        border-radius: 8px;
+        background: #fff;
+        color: #222;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        font-weight: 600;
+        transition: 0.15s ease;
+    }
+
+
+    .payment-option:hover {
+        background: #f5f5f5;
+    }
+
+
+    .payment-grid input:checked + .payment-option {
+        background: #222;
+        color: #fff;
+    }
+
+
+    .total-card-body {
+        padding: 25px;
+        text-align: center;
+    }
+
+
+    .total-price {
+        margin-top: 8px;
+        font-size: 36px;
+        font-weight: 800;
+        white-space: nowrap;
+    }
+
+
+    .confirm-button {
+        width: 100%;
+        min-height: 58px;
+        margin-bottom: 30px;
+        border: 0;
+        border-radius: 8px;
+        background: #222;
+        color: #fff;
+        font-size: 17px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: 0.15s ease;
+    }
+
+
+    .confirm-button:hover {
+        opacity: 0.9;
+        transform: translateY(-1px);
+    }
+
+
+    @media (max-width: 900px) {
+
+        .services-grid {
+            grid-template-columns:
+                repeat(2, minmax(0, 1fr));
+        }
+
+    }
+
+
+    @media (max-width: 576px) {
+
+        .new-haircut-page {
+            width: 100%;
+        }
+
+
+        .new-haircut-header {
+            margin-bottom: 25px;
+        }
+
+
+        .new-haircut-header h1 {
+            font-size: 28px;
+        }
+
+
+        .new-haircut-header h3 {
+            font-size: 21px;
+        }
+
+
+        .new-haircut-header p {
+            font-size: 14px;
+        }
+
+
+        .haircut-card-body,
+        .total-card-body {
+            padding: 20px;
+        }
+
+
+        .haircut-card-body h5 {
+            font-size: 18px;
+        }
+
+
+        .service-section-title {
+            font-size: 17px;
+        }
+
+
+        .services-grid {
+            grid-template-columns:
+                repeat(2, minmax(0, 1fr));
+            gap: 10px;
+        }
+
+
+        .service-option-label {
+            min-height: 95px;
+            padding: 10px;
+            font-size: 14px;
+        }
+
+
+        .service-name {
+            font-size: 14px;
+        }
+
+
+        .service-price {
+            font-size: 13px;
+        }
+
+
+        .payment-grid {
+            grid-template-columns:
+                repeat(2, minmax(0, 1fr));
+        }
+
+
+        .payment-option {
+            min-height: 52px;
+            font-size: 14px;
+        }
+
+
+        .total-price {
+            font-size: 30px;
+        }
+
+
+        .confirm-button {
+            min-height: 54px;
+        }
+
+    }
+
+
+    @media (max-width: 360px) {
+
+        .services-grid {
+            grid-template-columns: 1fr;
+        }
+
+
+        .payment-grid {
+            grid-template-columns: 1fr;
+        }
+
+
+        .total-price {
+            font-size: 27px;
+        }
+
+    }
+
+</style>
+
+</body>
+
+</html>

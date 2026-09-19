@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>تفاصيل الفاتورة - GROOM ROOM</title>
+
+    <link rel="stylesheet" href="/css/admin.css">
+
+    <style>
+
+        body {
+            background: #f5f5f5;
+        }
+
+        .invoice-details-page {
+            padding: 30px 15px;
+        }
+
+        .invoice-actions {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .invoice-actions button,
+        .invoice-actions a {
+            border: none;
+            text-decoration: none;
+            padding: 11px 20px;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .print-btn {
+            background: #111;
+            color: #fff;
+        }
+
+        .back-btn {
+            background: #eee;
+            color: #111;
+        }
+
+        .invoice-paper {
+            width: 80mm;
+            max-width: 100%;
+            margin: auto;
+            background: #fff;
+            padding: 8mm 5mm;
+            box-sizing: border-box;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            color: #000;
+            font-family: Arial, Tahoma, sans-serif;
+        }
+
+        .invoice-header {
+            text-align: center;
+            border-bottom: 1px dashed #000;
+            padding-bottom: 12px;
+            margin-bottom: 12px;
+        }
+
+        .invoice-logo {
+            font-size: 25px;
+            font-weight: 900;
+            letter-spacing: 1px;
+        }
+
+        .invoice-subtitle {
+            font-size: 13px;
+            margin-top: 5px;
+        }
+
+        .invoice-info {
+            font-size: 13px;
+            margin-bottom: 12px;
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            margin-bottom: 6px;
+        }
+
+        .info-label {
+            font-weight: 700;
+        }
+
+        .items {
+            border-top: 1px dashed #000;
+            border-bottom: 1px dashed #000;
+            padding: 10px 0;
+        }
+
+        .item {
+            display: flex;
+            justify-content: space-between;
+            gap: 8px;
+            font-size: 13px;
+            margin-bottom: 8px;
+        }
+
+        .item:last-child {
+            margin-bottom: 0;
+        }
+
+        .item-name {
+            flex: 1;
+            text-align: right;
+        }
+
+        .item-price {
+            white-space: nowrap;
+            font-weight: 700;
+        }
+
+        .total {
+            display: flex;
+            justify-content: space-between;
+            font-size: 18px;
+            font-weight: 900;
+            padding: 12px 0;
+            border-bottom: 1px dashed #000;
+        }
+
+        .payment {
+            text-align: center;
+            font-size: 13px;
+            font-weight: 700;
+            padding: 10px 0;
+        }
+
+        .thank-you {
+            text-align: center;
+            font-size: 13px;
+            font-weight: 700;
+            padding-top: 10px;
+        }
+
+        @media print {
+
+            @page {
+                size: 80mm auto;
+                margin: 0;
+            }
+
+            html,
+            body {
+                width: 80mm;
+                margin: 0;
+                padding: 0;
+                background: #fff;
+            }
+
+            .gr-navbar,
+            .gr-footer,
+            .invoice-actions {
+                display: none !important;
+            }
+
+            .invoice-details-page {
+                width: 80mm;
+                padding: 0;
+                margin: 0;
+            }
+
+            .invoice-paper {
+                width: 80mm;
+                max-width: none;
+                margin: 0;
+                padding: 5mm;
+                box-shadow: none;
+            }
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<%- include('../partials/navbar', { user }) %>
+
+
+<div class="invoice-details-page">
+
+    <div class="invoice-actions">
+
+        <button
+            type="button"
+            class="print-btn"
+            onclick="window.print()"
+        >
+            🖨️ طباعة
+        </button>
+
+        <a
+            href="/admin/invoices"
+            class="back-btn"
+        >
+            ← رجوع
+        </a>
+
+    </div>
+
+
+    <div class="invoice-paper">
+
+        <div class="invoice-header">
+
+            <div class="invoice-logo">
+                GROOM ROOM
+            </div>
+
+            <div class="invoice-subtitle">
+                Barber Shop
+            </div>
+
+        </div>
+
+
+        <div class="invoice-info">
+
+            <div class="info-row">
+
+                <span class="info-label">
+                    رقم الفاتورة
+                </span>
+
+                <span>
+                    <%= invoice.InvoiceNumber %>
+                </span>
+
+            </div>
+
+
+            <div class="info-row">
+
+                <span class="info-label">
+                    التاريخ
+                </span>
+
+                <span>
+
+                    <%= new Date(invoice.CreatedAt).toLocaleDateString('en-GB') %>
+
+                    -
+
+                    <%= new Date(invoice.CreatedAt).toLocaleTimeString('en-GB', {
+                        hour: '2-digit',
+                        minute: '2-digit'
+                    }) %>
+
+                </span>
+
+            </div>
+
+
+            <div class="info-row">
+
+                <span class="info-label">
+                    الحلاق
+                </span>
+
+                <span>
+                    <%= invoice.BarberName %>
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <div class="items">
+
+            <% items.forEach(item => { %>
+
+                <div class="item">
+
+                    <div class="item-name">
+                        <%= item.ServiceName %>
+                    </div>
+
+                    <div class="item-price">
+                        <%= Number(item.Price).toFixed(2) %>
+                    </div>
+
+                </div>
+
+            <% }) %>
+
+        </div>
+
+
+        <div class="total">
+
+            <span>
+                الإجمالي
+            </span>
+
+            <span>
+                <%= Number(invoice.TotalAmount).toFixed(2) %>
+                جنيه
+            </span>
+
+        </div>
+
+
+        <div class="payment">
+
+            طريقة الدفع:
+
+            <% if (invoice.PaymentMethod === 'Cash') { %>
+                كاش
+            <% } else if (invoice.PaymentMethod === 'Card') { %>
+                فيزا
+            <% } else if (invoice.PaymentMethod === 'Wallet') { %>
+                Wallet
+            <% } else { %>
+                <%= invoice.PaymentMethod %>
+            <% } %>
+
+        </div>
+
+
+        <div class="thank-you">
+            شكراً لزيارتكم ❤️
+        </div>
+
+    </div>
+
+</div>
+
+
+<%- include('../partials/footer') %>
+
+</body>
+
+</html>

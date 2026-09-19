@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Groom Room - يوم العمل</title>
+
+    <link
+        rel="stylesheet"
+        href="/css/admin.css"
+    >
+
+    <link rel="stylesheet" href="/css/professional.css">
+
+    <style>
+
+        .business-page {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .page-title {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .page-title h1 {
+            margin: 0;
+            font-size: 32px;
+        }
+
+        .page-title p {
+            margin-top: 8px;
+            color: #777;
+        }
+
+        .business-status {
+            padding: 25px;
+            margin-bottom: 20px;
+        }
+
+        .status-box {
+            text-align: center;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .status-box.open {
+            background: #eaf7ef;
+            border: 1px solid #b9e3c7;
+            color: #198754;
+        }
+
+        .status-box.closed {
+            background: #fff0f0;
+            border: 1px solid #f0b8b8;
+            color: #dc3545;
+        }
+
+        .status-box h3 {
+            margin: 0 0 10px;
+        }
+
+        .status-date {
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .open-form {
+            padding: 25px;
+            margin-bottom: 30px;
+        }
+
+        .open-form h3 {
+            margin-top: 0;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+
+        .form-group input {
+            width: 100%;
+            min-height: 46px;
+            padding: 10px 12px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 16px;
+            background: #fff;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #333;
+        }
+
+        .open-button {
+            width: 100%;
+            background: #198754;
+            color: white;
+            border: none;
+            min-height: 48px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .open-button:hover {
+            opacity: 0.9;
+        }
+
+        .error-message {
+            margin-bottom: 20px;
+            padding: 14px;
+            background: #fff0f0;
+            color: #b02a37;
+            border: 1px solid #f0b8b8;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 700;
+        }
+
+        .history-card {
+            overflow: hidden;
+        }
+
+        .history-header {
+            padding: 25px;
+        }
+
+        .history-header h3 {
+            margin: 0 0 6px;
+        }
+
+        .history-header p {
+            margin: 0;
+            color: #777;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+        }
+
+        .history-table {
+            width: 100%;
+            min-width: 650px;
+            border-collapse: collapse;
+        }
+
+        .history-table th,
+        .history-table td {
+            padding: 14px 16px;
+            border-bottom: 1px solid #eee;
+            text-align: right;
+        }
+
+        .history-table th {
+            background: #f8f8f8;
+        }
+
+        .history-table .center {
+            text-align: center;
+        }
+
+        .badge-open {
+            display: inline-block;
+            padding: 6px 10px;
+            border-radius: 20px;
+            background: #d1e7dd;
+            color: #146c43;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .badge-closed {
+            display: inline-block;
+            padding: 6px 10px;
+            border-radius: 20px;
+            background: #f8d7da;
+            color: #b02a37;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .back-button {
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        @media (max-width: 576px) {
+
+            .business-page {
+                width: 100%;
+            }
+
+            .page-title h1 {
+                font-size: 27px;
+            }
+
+            .business-status,
+            .open-form,
+            .history-header {
+                padding: 20px;
+            }
+
+            .status-date {
+                font-size: 18px;
+            }
+
+            .history-table {
+                min-width: 600px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body class="professional-ui">
+
+<div class="admin-dashboard">
+
+    <div class="business-page">
+
+
+        <!-- Header -->
+
+        <div class="page-title">
+
+            <h1>
+                🗓️ يوم العمل
+            </h1>
+
+            <p>
+                إدارة فتح وقفل أيام العمل
+            </p>
+
+        </div>
+
+
+        <!-- Error -->
+
+        <% if (error) { %>
+
+            <div class="error-message">
+                <%= error %>
+            </div>
+
+        <% } %>
+
+
+        <!-- Current Status -->
+
+        <section class="dashboard-card business-status">
+
+            <% if (openDay) { %>
+
+                <div class="status-box open">
+
+                    <h3>
+                        🟢 يوم العمل مفتوح
+                    </h3>
+
+                    <div class="status-date">
+                        <%= new Date(openDay.BusinessDate).toLocaleDateString('en-GB') %>
+                    </div>
+
+                    <div style="margin-top: 8px;">
+                        تم فتحه:
+                        <%= new Date(openDay.OpenedAt).toLocaleString('en-GB') %>
+                    </div>
+
+                </div>
+
+            <% } else { %>
+
+                <div class="status-box closed">
+
+                    <h3>
+                        🔴 لا يوجد يوم عمل مفتوح
+                    </h3>
+
+                    <div>
+                        يجب فتح يوم عمل قبل تسجيل أي حلاقة جديدة.
+                    </div>
+
+                </div>
+
+            <% } %>
+
+        </section>
+
+
+        <!-- Open New Day -->
+
+        <% if (!openDay) { %>
+
+            <section class="dashboard-card open-form">
+
+                <h3>
+                    فتح يوم عمل جديد
+                </h3>
+
+                <form
+                    method="POST"
+                    action="/admin/business-day/open"
+                    onsubmit="return confirm('هل أنت متأكد من فتح يوم العمل بالتاريخ المحدد؟');"
+                >
+
+                    <div class="form-group">
+
+                        <label for="businessDate">
+                            تاريخ يوم العمل
+                        </label>
+
+                        <input
+                            type="date"
+                            id="businessDate"
+                            name="businessDate"
+                            required
+                        >
+
+                    </div>
+
+                    <button
+                        type="submit"
+                        class="open-button"
+                    >
+                        🔓 فتح يوم العمل
+                    </button>
+
+                </form>
+
+            </section>
+
+        <% } %>
+
+
+        <!-- History -->
+
+        <section class="dashboard-card history-card">
+
+            <div class="history-header">
+
+                <h3>
+                    سجل أيام العمل
+                </h3>
+
+                <p>
+                    آخر 30 يوم عمل
+                </p>
+
+            </div>
+
+
+            <% if (days && days.length > 0) { %>
+
+                <div class="table-wrapper">
+
+                    <table class="history-table">
+
+                        <thead>
+
+                            <tr>
+
+                                <th>
+                                    التاريخ
+                                </th>
+
+                                <th>
+                                    وقت الفتح
+                                </th>
+
+                                <th>
+                                    وقت القفل
+                                </th>
+
+                                <th class="center">
+                                    الحالة
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody>
+
+                            <% days.forEach(day => { %>
+
+                                <tr>
+
+                                    <td>
+                                        <strong>
+                                            <%= new Date(day.BusinessDate).toLocaleDateString('en-GB') %>
+                                        </strong>
+                                    </td>
+
+                                    <td>
+                                        <%= new Date(day.OpenedAt).toLocaleString('en-GB') %>
+                                    </td>
+
+                                    <td>
+
+                                        <% if (day.ClosedAt) { %>
+
+                                            <%= new Date(day.ClosedAt).toLocaleString('en-GB') %>
+
+                                        <% } else { %>
+
+                                            —
+
+                                        <% } %>
+
+                                    </td>
+
+                                    <td class="center">
+
+                                        <% if (day.IsOpen) { %>
+
+                                            <span class="badge-open">
+                                                مفتوح
+                                            </span>
+
+                                        <% } else { %>
+
+                                            <span class="badge-closed">
+                                                مغلق
+                                            </span>
+
+                                        <% } %>
+
+                                    </td>
+
+                                </tr>
+
+                            <% }) %>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            <% } else { %>
+
+                <div class="empty-state">
+                    لا توجد أيام عمل مسجلة.
+                </div>
+
+            <% } %>
+
+        </section>
+
+
+        <!-- Back -->
+
+        <a
+            href="/admin"
+            class="btn btn-outline back-button"
+        >
+            ← العودة للوحة التحكم
+        </a>
+
+
+    </div>
+
+</div>
+
+</body>
+
+</html>
